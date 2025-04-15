@@ -5,8 +5,78 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaSphere"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MediaSphere" Height="700" Width="800"
+        WindowStartupLocation="CenterScreen">
 
+    <Grid>
+        <Grid HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Width="400"
+              Background="White"
+              Margin="20">
+
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            
+            <Image Grid.Row="0"
+                   Source="/MediaSphereLogo.png"
+                   Height="200"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Center"
+                   Margin="0,30,0,10"/>
+
+            <StackPanel Grid.Row="1"
+                        Width="300"
+                        HorizontalAlignment="Center"
+                        Margin="0,20,0,20">
+
+                <TextBlock Text="Benutzername oder E-Mail:" Margin="0,0,0,5"/>
+                <TextBox Height="30" Margin="0,0,0,15" Padding="5"/>
+
+                <TextBlock Text="Passwort:" Margin="0,0,0,5"/>
+                <PasswordBox Height="30" Margin="0,0,0,25" Padding="5"/>
+
+                <Button Content="Anmelden"
+                        Height="35"
+                        Background="#1A73E8"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderBrush="#1A73E8"
+                        BorderThickness="1"
+                        Margin="0,0,0,20"/>
+
+                <TextBlock Text="Oder"
+                           FontSize="12"
+                           Foreground="Gray"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"/>
+
+                <Button Content="Als Gast fortfahren"
+                        Height="30"
+                        Background="#E0E0E0"
+                        Foreground="Black"
+                        BorderBrush="#C0C0C0"
+                        BorderThickness="1"
+                        Margin="0,0,0,20"/>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,10,0,0">
+                    <TextBlock Text="Noch kein Konto?" FontSize="12"/>
+                    <Button Content="Registrieren"
+                            FontSize="12"
+                            Background="Transparent"
+                            Foreground="#1A73E8"
+                            BorderThickness="0"
+                            Padding="0"
+                            Margin="5,0,0,0"
+                            Cursor="Hand"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

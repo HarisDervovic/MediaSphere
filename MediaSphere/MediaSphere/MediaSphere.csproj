@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="MediaSphereLogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="MediaSphereLogo.png" />
+  </ItemGroup>
+
 </Project>
