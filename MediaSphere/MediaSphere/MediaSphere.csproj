@@ -9,11 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BlueSuccess.png" />
+    <None Remove="Images\BlueSuccess.png" />
+    <None Remove="Images\warning-xxl.png" />
     <None Remove="MediaSphereLogo.png" />
+    <None Remove="warning-xxl.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="BlueSuccess.png" />
+    <Resource Include="Images\BlueSuccess.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\warning-xxl.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="MediaSphereLogo.png" />
+    <Resource Include="warning-xxl.png" />
   </ItemGroup>
 
 </Project>
