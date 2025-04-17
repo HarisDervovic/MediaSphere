@@ -6,13 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Security.Cryptography;
 
 namespace MediaSphere
@@ -26,6 +19,7 @@ namespace MediaSphere
         private static readonly string appFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MediaSphere");
         private static readonly string databaseFile = System.IO.Path.Combine(appFolder, "MediaSphere.db");
         private static readonly string connectionString = $"Data Source={databaseFile};Version=3;";
+
         public Login(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -44,7 +38,21 @@ namespace MediaSphere
 
             if (AnmeldedatenÜberprüfen(Benutzername.ToLower(), Passwort))
             {
-                //Hier dann switchen zum Hauptmenü
+                if (CheckBoxAngemeldetBleiben.IsChecked == true)
+                {
+                    Properties.Settings.Default.AngemeldeterBenutzername = Benutzername;
+                }
+                else
+                {
+                    Properties.Settings.Default.AngemeldeterBenutzername = string.Empty;
+                }
+
+                Properties.Settings.Default.Save();
+
+                MainWindow2 mainWindow2 = new MainWindow2(Benutzername);
+                mainWindow2.Show();
+                MainWindow.Close();
+                
             }
             else
             {
@@ -58,17 +66,12 @@ namespace MediaSphere
             {
                 connection.Open();
 
-
                 SQLiteCommand command = new SQLiteCommand("SELECT COUNT(*) FROM Benutzer WHERE Benutzername = @username AND Passwort = @password", connection);
-                // Parameter setzen, um SQL-Injection zu vermeiden
                 command.Parameters.AddWithValue("@username", Benutzername);
                 command.Parameters.AddWithValue("@password", VERSCHLÜSSELN(Passwort));
 
-                // Abfrage ausführen und überprüfen, ob ein Datensatz gefunden wurde
                 int result = Convert.ToInt32(command.ExecuteScalar());
-
-                return result > 0; // Wenn ein Benutzer gefunden wurde, ist das Login gültig
-
+                return result > 0;
             }
         }
 
@@ -84,7 +87,6 @@ namespace MediaSphere
                 }
                 return PasswortVerschlüsselt.ToString();
             }
-
         }
     }
 }

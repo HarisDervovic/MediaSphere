@@ -25,7 +25,7 @@ namespace MediaSphere
         public MainWindow()
         {
             InitializeComponent();
-            MainContent.Content = new Login(this);
+            
 
             if (!Directory.Exists(appFolder))
             {
@@ -36,6 +36,17 @@ namespace MediaSphere
             {
                 SQLiteConnection.CreateFile(databaseFile);
                 CreateTables();
+            }
+            
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.AngemeldeterBenutzername))
+            {
+                MainWindow2 hauptfenster = new MainWindow2(Properties.Settings.Default.AngemeldeterBenutzername);
+                hauptfenster.Show();
+                this.Close();
+            }
+            else
+            {
+                SwitchView(new Login(this));
             }
         }
 
