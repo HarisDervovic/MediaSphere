@@ -145,9 +145,9 @@ namespace MediaSphere
 
         private void ButtonRegistrieren_Click(object sender, RoutedEventArgs e)
         {
-            if (!BenutzerExistiertKontrolle(TextBoxBenutzername.Text))
+            if (!BenutzerExistiertKontrolle(TextBoxBenutzername.Text.ToLower()))
             {
-                BenutzerHinzufügen(TextBoxBenutzername.Text, PasswortBox1.Password);
+                BenutzerHinzufügen(TextBoxBenutzername.Text.ToLower(), PasswortBox1.Password);
                 var dialog = new CustomDialog("Erfolgreich registriert!");
                 dialog.Owner = Window.GetWindow(this);
                 dialog.ShowDialog();

@@ -20,14 +20,10 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- Icon -->
                 <RowDefinition Height="*"/>
-                <!-- Nachricht -->
                 <RowDefinition Height="Auto"/>
-                <!-- Button -->
             </Grid.RowDefinitions>
 
-            <!-- ICONS -->
             <Grid Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,10">
                 <Image x:Name="IconErfolg"
                        Source="/BlueSuccess.png"
@@ -39,7 +35,6 @@
                        Visibility="Hidden"/>
             </Grid>
 
-            <!-- Nachricht -->
             <TextBlock x:Name="TextMessage"
                        Grid.Row="1"
                        FontSize="16"
@@ -49,7 +44,6 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <!-- OK Button -->
             <Button Grid.Row="2"
                     Content="OK"
                     Width="100"

@@ -36,19 +36,21 @@
                      Margin="0,20,0,20">
 
                 <TextBlock Text="Benutzername:" Margin="0,0,0,5"/>
-                <TextBox Height="30" Margin="0,0,0,15" Padding="5"/>
+                <TextBox Name="TextBoxBenutzername" Height="30" Margin="0,0,0,15" Padding="5"/>
 
                 <TextBlock Text="Passwort:" Margin="0,0,0,5"/>
-                <PasswordBox Height="30" Margin="0,0,0,25" Padding="5"/>
+                <PasswordBox Name="PasswortBox" Height="30" Margin="0,0,0,10" Padding="5"/>
 
-                <Button Content="Anmelden"
+                <Label Name="LabelFalscheDaten" HorizontalAlignment="Center" Margin="0,0,0,7" FontSize="12" Visibility="Hidden" Foreground="Red">Anmeldedaten falsch!</Label>
+
+                <Button Name="ButtonAnmelden" Content="Anmelden"
                      Height="35"
                      Background="#1A73E8"
                      Foreground="White"
                      FontWeight="Bold"
                      BorderBrush="#1A73E8"
                      BorderThickness="1"
-                     Margin="0,0,0,20"/>
+                     Margin="0,0,0,20" Click="ButtonAnmelden_Click"/>
 
                 <TextBlock Text="Oder"
                         FontSize="12"
