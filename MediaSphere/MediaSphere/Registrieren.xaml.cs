@@ -148,14 +148,14 @@ namespace MediaSphere
             if (!BenutzerExistiertKontrolle(TextBoxBenutzername.Text.ToLower()))
             {
                 BenutzerHinzufügen(TextBoxBenutzername.Text.ToLower(), PasswortBox1.Password);
-                var dialog = new CustomDialog("Erfolgreich registriert!");
+                var dialog = new CustomDialog("Erfolgreich registriert!",true);
                 dialog.Owner = Window.GetWindow(this);
                 dialog.ShowDialog();
                 MainWindow.SwitchView(new Login(MainWindow));
             }
             else
             {
-                var dialog = new CustomDialog("Benutzer existiert bereits!");
+                var dialog = new CustomDialog("Benutzer existiert bereits!",false);
                 dialog.Owner = Window.GetWindow(this); 
                 dialog.ShowDialog();
             }

@@ -22,6 +22,7 @@ namespace MediaSphere
         private static readonly string appFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MediaSphere");
         private static readonly string databaseFile = System.IO.Path.Combine(appFolder, "MediaSphere.db");
         private static readonly string connectionString = $"Data Source={databaseFile};Version=3;";
+        private static readonly string Mediathek = System.IO.Path.Combine(appFolder, "Mediathek");
         public MainWindow()
         {
             InitializeComponent();
@@ -30,6 +31,11 @@ namespace MediaSphere
             if (!Directory.Exists(appFolder))
             {
                 Directory.CreateDirectory(appFolder);
+            }
+
+            if (!Directory.Exists(Mediathek))
+            {
+                Directory.CreateDirectory(Mediathek);
             }
 
             if (!File.Exists(databaseFile))

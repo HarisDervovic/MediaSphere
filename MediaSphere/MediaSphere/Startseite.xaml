@@ -76,8 +76,8 @@
                 <StackPanel Grid.Row="1" Margin="20,0" VerticalAlignment="Bottom">
                     <Button Content="🏠 Startseite"
                             Style="{StaticResource ActiveSidebarButtonStyle}"/>
-                    <Button Content="➕ Datei der Mediathek hinzufügen"
-                            Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button x:Name="ButtonMediathekErweitern" Content="➕ Datei der Mediathek hinzufügen"
+                            Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathekErweitern_Click"/>
                     <Button Content="📁 Mediathek"
                             Style="{StaticResource SidebarButtonStyle}"/>
                     <Button Name="ButtonPlaylist" Content="📃 Playlists"

@@ -21,9 +21,11 @@ namespace MediaSphere
     public partial class Startseite : UserControl
     {
         private MainWindow2 MainWindow2;
+        bool _Gast;
         public Startseite(MainWindow2 mainWindow2,bool Gast)
         {
             InitializeComponent();
+            _Gast = Gast;
             MainWindow2 = mainWindow2;
             if(Gast)
             {
@@ -39,6 +41,11 @@ namespace MediaSphere
             MainWindow login = new MainWindow();
             login.Show();
             MainWindow2.Close();
+        }
+
+        private void ButtonMediathekErweitern_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new MediathekErweitern(MainWindow2,_Gast));
         }
     }
 }

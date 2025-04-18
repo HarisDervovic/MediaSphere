@@ -19,11 +19,11 @@ namespace MediaSphere
     /// </summary>
     public partial class CustomDialog : Window
     {
-        public CustomDialog(string message)
+        public CustomDialog(string message, bool Erfolg)
         {
             InitializeComponent();
             TextMessage.Text = message;
-            if(message == "Erfolgreich registriert!")
+            if(Erfolg)
             {
                 IconErfolg.Visibility = Visibility.Visible;
             }
