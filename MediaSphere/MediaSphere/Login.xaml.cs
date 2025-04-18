@@ -49,7 +49,7 @@ namespace MediaSphere
 
                 Properties.Settings.Default.Save();
 
-                MainWindow2 mainWindow2 = new MainWindow2(Benutzername);
+                MainWindow2 mainWindow2 = new MainWindow2(Benutzername, false);
                 mainWindow2.Show();
                 MainWindow.Close();
                 
@@ -87,6 +87,13 @@ namespace MediaSphere
                 }
                 return PasswortVerschlüsselt.ToString();
             }
+        }
+
+        private void ButtonGast_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2 mainWindow2 = new MainWindow2("Gast",true);
+            mainWindow2.Show();
+            MainWindow.Close();
         }
     }
 }

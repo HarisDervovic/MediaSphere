@@ -40,7 +40,7 @@ namespace MediaSphere
             
             if (!string.IsNullOrEmpty(Properties.Settings.Default.AngemeldeterBenutzername))
             {
-                MainWindow2 hauptfenster = new MainWindow2(Properties.Settings.Default.AngemeldeterBenutzername);
+                MainWindow2 hauptfenster = new MainWindow2(Properties.Settings.Default.AngemeldeterBenutzername,false);
                 hauptfenster.Show();
                 this.Close();
             }

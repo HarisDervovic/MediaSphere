@@ -21,10 +21,24 @@ namespace MediaSphere
     public partial class Startseite : UserControl
     {
         private MainWindow2 MainWindow2;
-        public Startseite(MainWindow2 mainWindow2)
+        public Startseite(MainWindow2 mainWindow2,bool Gast)
         {
             InitializeComponent();
             MainWindow2 = mainWindow2;
+            if(Gast)
+            {
+                ButtonPlaylist.IsEnabled = false;
+            }
+        }
+
+        private void ButtonAbmelden_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.AngemeldeterBenutzername = string.Empty;
+            Properties.Settings.Default.Save();
+
+            MainWindow login = new MainWindow();
+            login.Show();
+            MainWindow2.Close();
         }
     }
 }

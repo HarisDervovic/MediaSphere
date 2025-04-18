@@ -19,11 +19,11 @@ namespace MediaSphere
     /// </summary>
     public partial class MainWindow2 : Window
     {
-        public MainWindow2(string Benutzername)
+        public MainWindow2(string Benutzername, bool Gast)
         {
             InitializeComponent();
-            LabelTest.Content = Benutzername;
-            SwitchView(new Startseite(this));
+           
+            SwitchView(new Startseite(this,Gast));
         }
 
         public void SwitchView(object NeueSeite)

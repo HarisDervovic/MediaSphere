@@ -6,7 +6,109 @@
              xmlns:local="clr-namespace:MediaSphere"
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1400">
+    <UserControl.Resources>
+
+        
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#333"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Background" Value="#333"/>
+            <Setter Property="Foreground" Value="#1A73E8"/>
+        </Style>
+
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+      
+        <Border Grid.Column="0" Background="#1C1C1E">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                   
+                    <RowDefinition Height="*"/>
+                   
+                    <RowDefinition Height="Auto"/>
+                    
+                </Grid.RowDefinitions>
+
+               
+                <Image Source="/MediaSphereLogo.png"
+                       Height="120"
+                       Margin="0,20,0,20"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center"/>
+
+           
+                <StackPanel Grid.Row="1" Margin="20,0" VerticalAlignment="Bottom">
+                    <Button Content="🏠 Startseite"
+                            Style="{StaticResource ActiveSidebarButtonStyle}"/>
+                    <Button Content="➕ Datei der Mediathek hinzufügen"
+                            Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📁 Mediathek"
+                            Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Name="ButtonPlaylist" Content="📃 Playlists"
+                            Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📺 YouTube Downloader"
+                            Style="{StaticResource SidebarButtonStyle}"/>
+                </StackPanel>
+
+                
+                <StackPanel Grid.Row="2" Margin="20,10" VerticalAlignment="Bottom">
+                    <Button Name="ButtonAbmelden" Content="🚪 Abmelden"
+                            Style="{StaticResource SidebarButtonStyle}" Click="ButtonAbmelden_Click"
+                            />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+      
+        <Grid Grid.Column="1" Background="White">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
+                <TextBlock Text="Willkommen bei MediaSphere!"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="#1A73E8"
+                           TextAlignment="Center"/>
+                <TextBlock Text="Wähle links eine Option aus, um loszulegen."
+                           FontSize="16"
+                           Foreground="Gray"
+                           TextAlignment="Center"
+                           Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -71,13 +71,13 @@
                            HorizontalAlignment="Center"
                            Margin="0,0,0,10"/>
 
-                <Button Content="Als Gast fortfahren"
+                <Button Name="ButtonGast" Content="Als Gast fortfahren"
                         Height="30"
                         Background="#E0E0E0"
                         Foreground="Black"
                         BorderBrush="#C0C0C0"
                         BorderThickness="1"
-                        Margin="0,0,0,20"/>
+                        Margin="0,0,0,20" Click="ButtonGast_Click"/>
 
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
