@@ -99,6 +99,13 @@ namespace MediaSphere
                 {
                     File.Copy(quelle, ziel);
                 }
+                else
+                {
+                    var dialog1 = new CustomDialog("Diese Datei existiert bereits im Mediathek-Ordner.", false);
+                    dialog1.Owner = Window.GetWindow(this);
+                    dialog1.ShowDialog();
+                    return;
+                }
 
                 using (var connection = new SQLiteConnection(connectionString))
                 {
