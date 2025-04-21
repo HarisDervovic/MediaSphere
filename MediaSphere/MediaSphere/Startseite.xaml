@@ -78,10 +78,10 @@
                             Style="{StaticResource ActiveSidebarButtonStyle}"/>
                     <Button x:Name="ButtonMediathekErweitern" Content="➕ Datei der Mediathek hinzufügen"
                             Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathekErweitern_Click"/>
-                    <Button Content="📁 Mediathek"
-                            Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Name="ButtonMediathek" Content="📁 Mediathek"
+                            Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathek_Click" />
                     <Button Name="ButtonPlaylist" Content="📃 Playlists"
-                            Style="{StaticResource SidebarButtonStyle}"/>
+                            Style="{StaticResource SidebarButtonStyle}" Click="ButtonPlaylist_Click"/>
                     <Button Content="📺 YouTube Downloader"
                             Style="{StaticResource SidebarButtonStyle}"/>
                 </StackPanel>

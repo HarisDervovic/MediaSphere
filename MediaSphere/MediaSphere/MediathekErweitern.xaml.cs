@@ -135,5 +135,10 @@ namespace MediaSphere
                 dialog.ShowDialog();
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new Mediathek(MainWindow2, _Gast));
+        }
     }
 }

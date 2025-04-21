@@ -101,7 +101,7 @@
                 <StackPanel Grid.Row="1" Margin="20,0" VerticalAlignment="Bottom">
                     <Button Name="ButtonStartseite" Content="🏠 Startseite" Style="{StaticResource SidebarButtonStyle}" Click="ButtonStartseite_Click"/>
                     <Button Content="➕ Datei der Mediathek hinzufügen" Style="{StaticResource ActiveSidebarButtonStyle}"/>
-                    <Button Content="📁 Mediathek" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📁 Mediathek" Style="{StaticResource SidebarButtonStyle}" Click="Button_Click"/>
                     <Button Name="ButtonPlaylist" Content="📃 Playlists" Style="{StaticResource SidebarButtonStyle}"/>
                     <Button Content="📺 YouTube Downloader" Style="{StaticResource SidebarButtonStyle}"/>
                 </StackPanel>

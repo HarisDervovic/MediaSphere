@@ -47,5 +47,15 @@ namespace MediaSphere
         {
             MainWindow2.SwitchView(new MediathekErweitern(MainWindow2,_Gast));
         }
+
+        private void ButtonPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonMediathek_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new Mediathek(MainWindow2, _Gast));
+        }
     }
 }
