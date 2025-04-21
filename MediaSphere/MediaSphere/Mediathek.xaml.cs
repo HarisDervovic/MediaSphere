@@ -104,5 +104,39 @@ namespace MediaSphere
             login.Show();
             MainWindow2.Close();
         }
+
+        private void TextBoxFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            FilterAktualisieren();  
+        }
+
+        private void ComboBoxTypFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FilterAktualisieren();
+        }
+
+        private void FilterAktualisieren()
+        {
+            if (TextBoxFilter == null || ComboBoxTypFilter == null || DisplayView == null)
+            {
+                return; //Bugfix
+            }
+
+            string filter = TextBoxFilter.Text?.ToLower() ?? "";
+            string typ = (ComboBoxTypFilter.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Alle";
+
+            if (typ == "Alle")
+            {
+                DisplayView.Filter = x => ((Medium)x).Titel.ToLower().Contains(filter) || ((Medium)x).Kategorie.ToLower().Contains(filter);
+            }
+            else if (typ == "mp3")
+            {
+                DisplayView.Filter = x => ((Medium)x).Typ.Equals("mp3") && (((Medium)x).Titel.ToLower().Contains(filter) || ((Medium)x).Kategorie.ToLower().Contains(filter));
+            }
+            else if (typ == "mp4")
+            {
+                DisplayView.Filter = x => ((Medium)x).Typ.Equals("mp4") && (((Medium)x).Titel.ToLower().Contains(filter) || ((Medium)x).Kategorie.ToLower().Contains(filter));
+            }
+        }
     }
 }
