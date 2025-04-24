@@ -138,5 +138,57 @@ namespace MediaSphere
                 DisplayView.Filter = x => ((Medium)x).Typ.Equals("mp4") && (((Medium)x).Titel.ToLower().Contains(filter) || ((Medium)x).Kategorie.ToLower().Contains(filter));
             }
         }
+
+        private void ButtonAbspielen_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+
+            if (medium == null || string.IsNullOrWhiteSpace(medium.Pfad))
+                return;
+
+            try
+            {
+                var mediaPlayer = MainWindow2.FindName("MediaPlayer") as MediaElement;
+                var titelTextBlock = MainWindow2.FindName("TextBlockAktuellerTitel") as TextBlock;
+                var dockPanel = MainWindow2.FindName("DockPlayer") as DockPanel;
+                var videoOverlay = MainWindow2.FindName("VideoOverlay") as Grid;
+
+                if (mediaPlayer != null)
+                {
+                    mediaPlayer.Stop();
+                    mediaPlayer.Source = new Uri(medium.Pfad, UriKind.Absolute);
+                    mediaPlayer.Play();
+                }
+
+                if (titelTextBlock != null)
+                {
+                    titelTextBlock.Text = $"🎵 {medium.Titel}";
+                }
+
+                if (medium.Typ.ToLower() == "mp3")
+                {
+                  
+                    if (dockPanel != null)
+                        dockPanel.Visibility = Visibility.Visible;
+
+                    if (videoOverlay != null)
+                        videoOverlay.Visibility = Visibility.Collapsed;
+                }
+                else if (medium.Typ.ToLower() == "mp4")
+                {
+                    
+                    if (videoOverlay != null)
+                        videoOverlay.Visibility = Visibility.Visible;
+
+                    if (dockPanel != null)
+                        dockPanel.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Abspielen: {ex.Message}", "Abspielen", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

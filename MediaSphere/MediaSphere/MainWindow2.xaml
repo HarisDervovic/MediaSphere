@@ -6,7 +6,213 @@
         xmlns:local="clr-namespace:MediaSphere"
         mc:Ignorable="d"
         Title="MainWindow2" Height="850" Width="1400" WindowStartupLocation="CenterScreen">
+
     <Grid>
-        <ContentControl x:Name="MainContent"/>
+
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            
+            <ContentControl x:Name="MainContent" Grid.ColumnSpan="2"/>
+
+            
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+               
+                <DockPanel x:Name="DockPlayer" Grid.Row="1" Background="#F0F0F0" Height="90" Margin="40,0,40,20" Visibility="Hidden">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        
+                        <Grid Grid.Row="0" Margin="0,10,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="00:00" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                            <Slider x:Name="SliderAudioProgress"
+                                    Height="20"
+                                    Minimum="0"
+                                    Maximum="100"
+                                    Value="0"
+                                    Background="#DDD"
+                                    Foreground="#1A73E8"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"/>
+                            <TextBlock Text="00:00" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0" Grid.Column="2"/>
+                        </Grid>
+
+                      
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="TextBlockAktuellerTitel" 
+                                       Text="🎵 Kein Titel ausgewählt" 
+                                       VerticalAlignment="Center" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="Gray" 
+                                       FontSize="14" 
+                                       Margin="10,0,10,0"
+                                       Grid.Column="0"
+                                       Width="200"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap"
+                                       ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Margin="0,0,40,0">
+                                <Button Content="⏮" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                                <Button Name="ButtonPlayPause" Content="⏸" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                                <Button Content="⏭" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                                <Button Content="🔁" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Right" Margin="20,0,0,0">
+                                <TextBlock Text="🔊" VerticalAlignment="Center" FontSize="16" Margin="0,0,5,0"/>
+                                <Slider Name="SliderMusikLautstärke" Width="100" Minimum="0" Maximum="100" Value="80" Margin="0,0,20,0" ValueChanged="SliderMusikLautstärke_ValueChanged"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+        </Grid>
+
+      
+        <Grid x:Name="VideoOverlay"
+              Visibility="Collapsed"
+              Background="#CC000000"
+              Grid.ZIndex="999"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+
+            <Border Background="Black"
+                    BorderBrush="White"
+                    BorderThickness="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Margin="40">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                  
+                    <MediaElement x:Name="MediaPlayer"
+                                  LoadedBehavior="Manual"
+                                  UnloadedBehavior="Manual"
+                                  Volume="0.2"
+                                  Stretch="Uniform"
+                                  Grid.Row="0"/>
+
+                   
+                    <Grid Grid.Row="1" Margin="10,10,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="TextBlockAktuelleZeit_FS"
+                                   Text="00:00"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="0,0,10,0"/>
+
+                        <Slider x:Name="ProgressSlider_FS"
+                                Height="6"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="0"
+                                Background="#444"
+                                Foreground="#1A73E8"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"/>
+
+                        <TextBlock x:Name="TextBlockVerbleibendeZeit_FS"
+                                   Text="00:00"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="10,0,0,0"
+                                   Grid.Column="2"/>
+                    </Grid>
+
+                  
+                    <Grid Grid.Row="2" Margin="10,10,10,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="TextBlockAktuellerTitel_FS"
+                                   Text="🎬 Kein Titel ausgewählt"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   FontSize="14"
+                                   Margin="0,0,10,0"
+                                   Grid.Column="0"
+                                   Width="200"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
+                            <Button Content="⏮" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
+                            <Button x:Name="PlayPauseButton_FS" Content="⏸" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
+                            <Button Content="⏭" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,0,0">
+                            <TextBlock Text="🔊"
+                                       FontSize="20"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,5,0"/>
+                            <Slider x:Name="SliderVideoLautstärke"
+                                    Width="100"
+                                    Height="20"
+                                    Minimum="0"
+                                    Maximum="100"
+                                    Value="80"
+                                    VerticalAlignment="Center" ValueChanged="SliderVideoLautstärke_ValueChanged"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                        <Button Content="❌"
+                                Width="35" Height="35"
+                                Background="Transparent"
+                                Foreground="White"
+                                BorderBrush="Transparent"
+                                FontWeight="Bold"
+                                Cursor="Hand"
+                                Margin="5,5,5,0"
+                                Click="CloseVideo_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
     </Grid>
 </Window>

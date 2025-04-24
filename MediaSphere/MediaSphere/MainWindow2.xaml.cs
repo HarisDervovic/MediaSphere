@@ -30,5 +30,29 @@ namespace MediaSphere
         {
             MainContent.Content = NeueSeite;
         }
+
+        private void CloseVideo_Click(object sender, RoutedEventArgs e)
+        {
+            VideoOverlay.Visibility = Visibility.Collapsed;
+            MediaPlayer.Stop();
+
+            
+        }
+
+        private void SliderMusikLautstärke_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (MediaPlayer != null)
+            {
+                MediaPlayer.Volume = SliderMusikLautstärke.Value / 100.0; 
+            }
+        }
+
+        private void SliderVideoLautstärke_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(MediaPlayer != null)
+            {
+                MediaPlayer.Volume = SliderVideoLautstärke.Value / 100.0;
+            }
+        }
     }
 }
