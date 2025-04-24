@@ -41,7 +41,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="00:00" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                            <TextBlock Name="TextBlockAktuelleZeitAudio" Text="00:00" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
                             <Slider x:Name="SliderAudioProgress"
                                     Height="20"
                                     Minimum="0"
@@ -50,8 +50,11 @@
                                     Background="#DDD"
                                     Foreground="#1A73E8"
                                     Grid.Column="1"
-                                    VerticalAlignment="Center"/>
-                            <TextBlock Text="00:00" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0" Grid.Column="2"/>
+                                    VerticalAlignment="Center"
+                                    ValueChanged="SliderProgress_ValueChanged"
+                                    PreviewMouseDown="SliderProgress_PreviewMouseDown"
+                                    PreviewMouseUp="SliderProgress_PreviewMouseUp"/>
+                            <TextBlock Name="TextBlockVerbleibendeZeitAudio" Text="00:00" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0" Grid.Column="2"/>
                         </Grid>
 
                       
@@ -62,7 +65,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="TextBlockAktuellerTitel" 
+                            <TextBlock x:Name="TextBlockAktuellerTitelAudio" 
                                        Text="🎵 Kein Titel ausgewählt" 
                                        VerticalAlignment="Center" 
                                        FontWeight="SemiBold" 
@@ -130,14 +133,14 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="TextBlockAktuelleZeit_FS"
+                        <TextBlock x:Name="TextBlockAktuelleZeitVideo"
                                    Text="00:00"
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
                                    Foreground="White"
                                    Margin="0,0,10,0"/>
 
-                        <Slider x:Name="ProgressSlider_FS"
+                        <Slider x:Name="SliderVideoProgress"
                                 Height="6"
                                 Minimum="0"
                                 Maximum="100"
@@ -145,9 +148,12 @@
                                 Background="#444"
                                 Foreground="#1A73E8"
                                 Grid.Column="1"
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center"
+                                ValueChanged="SliderProgress_ValueChanged"
+                                PreviewMouseDown="SliderProgress_PreviewMouseDown"
+                                PreviewMouseUp="SliderProgress_PreviewMouseUp"/>
 
-                        <TextBlock x:Name="TextBlockVerbleibendeZeit_FS"
+                        <TextBlock x:Name="TextBlockVerbleibendeZeitVideo"
                                    Text="00:00"
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
@@ -164,7 +170,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="TextBlockAktuellerTitel_FS"
+                        <TextBlock x:Name="TextBlockAktuellerTitelVideo"
                                    Text="🎬 Kein Titel ausgewählt"
                                    VerticalAlignment="Center"
                                    FontWeight="SemiBold"

@@ -150,7 +150,8 @@ namespace MediaSphere
             try
             {
                 var mediaPlayer = MainWindow2.FindName("MediaPlayer") as MediaElement;
-                var titelTextBlock = MainWindow2.FindName("TextBlockAktuellerTitel") as TextBlock;
+                var titelTextBlockAudio = MainWindow2.FindName("TextBlockAktuellerTitelAudio") as TextBlock;
+                var titelTextBlockVideo = MainWindow2.FindName("TextBlockAktuellerTitelVideo") as TextBlock;
                 var dockPanel = MainWindow2.FindName("DockPlayer") as DockPanel;
                 var videoOverlay = MainWindow2.FindName("VideoOverlay") as Grid;
 
@@ -161,14 +162,13 @@ namespace MediaSphere
                     mediaPlayer.Play();
                 }
 
-                if (titelTextBlock != null)
-                {
-                    titelTextBlock.Text = $"🎵 {medium.Titel}";
-                }
+                
 
                 if (medium.Typ.ToLower() == "mp3")
                 {
-                  
+
+                    titelTextBlockAudio.Text = $"🎵 {medium.Titel}";
+
                     if (dockPanel != null)
                         dockPanel.Visibility = Visibility.Visible;
 
@@ -177,7 +177,9 @@ namespace MediaSphere
                 }
                 else if (medium.Typ.ToLower() == "mp4")
                 {
-                    
+
+                    titelTextBlockVideo.Text = $"🎬 {medium.Titel}";
+
                     if (videoOverlay != null)
                         videoOverlay.Visibility = Visibility.Visible;
 
@@ -189,6 +191,8 @@ namespace MediaSphere
             {
                 MessageBox.Show($"Fehler beim Abspielen: {ex.Message}", "Abspielen", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            MainWindow2.InitMediaTimer();
         }
     }
 }
