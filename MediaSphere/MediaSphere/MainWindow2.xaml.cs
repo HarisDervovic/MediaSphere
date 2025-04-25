@@ -123,6 +123,31 @@ namespace MediaSphere
             TextBlockAktuelleZeitAudio.Text = position.ToString(@"mm\:ss");
         }
 
+        private void ButtonPlayPause_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                if(button.Content == "⏸")
+                {
+                    MediaPlayer.Pause();
+                    button.Content = "▶";
+                }
+                else
+                {
+                    if (MediaPlayer.NaturalDuration.HasTimeSpan && MediaPlayer.Position >= MediaPlayer.NaturalDuration.TimeSpan)
+                    {
+                        MediaPlayer.Position = TimeSpan.Zero;
+                    }
+                    MediaPlayer.Play();
+                    button.Content = "⏸";
+                }
+            }
+        }
 
+        private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            ButtonPlayPauseVideo.Content = "▶";
+            ButtonPlayPauseAudio.Content = "▶";
+        }
     }
 }

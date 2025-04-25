@@ -192,6 +192,11 @@ namespace MediaSphere
                 MessageBox.Show($"Fehler beim Abspielen: {ex.Message}", "Abspielen", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+            var ButtonPlayPauseAudio = MainWindow2.FindName("ButtonPlayPauseAudio") as Button;
+            var ButtonPlayPauseVideo = MainWindow2.FindName("ButtonPlayPauseVideo") as Button;
+
+            ButtonPlayPauseAudio.Content = "⏸";
+            ButtonPlayPauseVideo.Content = "⏸";
             MainWindow2.InitMediaTimer();
         }
     }
