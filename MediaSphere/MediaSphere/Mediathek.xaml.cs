@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SQLite;
 using System.ComponentModel;
+using System.IO;
 
 namespace MediaSphere
 {
@@ -199,5 +200,40 @@ namespace MediaSphere
             ButtonPlayPauseVideo.Content = "⏸";
             MainWindow2.InitMediaTimer();
         }
+
+        private void ButtonLoeschen_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+            if (medium == null) return;
+
+            try
+            {
+                if (File.Exists(medium.Pfad))
+                    File.Delete(medium.Pfad);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Datei konnte nicht gelöscht werden: {ex.Message}");
+                return;
+            }
+
+            
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string deleteQuery = "DELETE FROM Medien WHERE MedienID = @id";
+                using (var command = new SQLiteCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@id", medium.MedienID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            
+            DisplayView = CollectionViewSource.GetDefaultView(LadeAlleMedien());
+            DataContext = DisplayView;
+        }
+
     }
 }
