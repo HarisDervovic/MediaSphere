@@ -82,7 +82,7 @@
                                 <Button Content="⏮" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
                                 <Button Name="ButtonPlayPauseAudio" Content="⏸" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8" Click="ButtonPlayPause_Click"/>
                                 <Button Content="⏭" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
-                                <Button Content="🔁" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                                <Button Name="ButtonLoopAudio" Content="🔁" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8" Click="ButtonLoop_Click"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Right" Margin="20,0,0,0">
@@ -183,10 +183,11 @@
                                    TextWrapping="NoWrap"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="330,0,0,0" Grid.Column="1">
                             <Button Content="⏮" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
                             <Button x:Name="ButtonPlayPauseVideo" Content="⏸" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0" Click="ButtonPlayPause_Click"/>
                             <Button Content="⏭" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
+                            <Button Name="ButtonLoopVideo" Content="🔁" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0" Click="ButtonLoop_Click"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,0,0">

@@ -20,6 +20,7 @@ namespace MediaSphere
     /// </summary>
     public partial class MainWindow2 : Window
     {
+        private int loopState = 0;
 
         private bool isDraggingSlider = false;
 
@@ -146,8 +147,46 @@ namespace MediaSphere
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
-            ButtonPlayPauseVideo.Content = "▶";
-            ButtonPlayPauseAudio.Content = "▶";
+            if (loopState == 2) // Single Track Loop
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                MediaPlayer.Play();
+            }
+            else if (loopState == 1) // Playlist Loop
+            {
+                // Später Playlistlogik implementieren
+                MediaPlayer.Position = TimeSpan.Zero;
+                MediaPlayer.Play();
+            }
+            else
+            {
+                // Kein Loop
+                ButtonPlayPauseVideo.Content = "▶";
+                ButtonPlayPauseAudio.Content = "▶";
+            }
         }
+
+
+        private void ButtonLoop_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                loopState = (loopState + 1) % 3; // wird beim 3. mal wieder durch modula 3 auf 0 gesetzt
+
+                switch (loopState)
+                {
+                    case 0:
+                        button.Content = "🔁"; // Normal (kein Loop)
+                        break;
+                    case 1:
+                        button.Content = "🔃"; // Playlist Loop
+                        break;
+                    case 2:
+                        button.Content = "🔂"; // Single Track Loop
+                        break;
+                }
+            }
+        }
+
     }
 }
