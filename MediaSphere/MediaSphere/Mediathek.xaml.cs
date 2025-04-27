@@ -235,5 +235,9 @@ namespace MediaSphere
             DataContext = DisplayView;
         }
 
+        private void ButtonDownloader_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new YouTubeDownloader(MainWindow2, _Gast));
+        }
     }
 }

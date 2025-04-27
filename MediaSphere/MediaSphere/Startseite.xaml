@@ -82,8 +82,8 @@
                             Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathek_Click" />
                     <Button Name="ButtonPlaylist" Content="📃 Playlists"
                             Style="{StaticResource SidebarButtonStyle}" Click="ButtonPlaylist_Click"/>
-                    <Button Content="📺 YouTube Downloader"
-                            Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Name="ButtonDownloader" Content="📺 YouTube Downloader"
+                            Style="{StaticResource SidebarButtonStyle}" Click="ButtonDownloader_Click"/>
                 </StackPanel>
 
                 

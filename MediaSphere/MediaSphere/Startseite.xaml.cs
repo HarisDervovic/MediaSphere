@@ -57,5 +57,10 @@ namespace MediaSphere
         {
             MainWindow2.SwitchView(new Mediathek(MainWindow2, _Gast));
         }
+
+        private void ButtonDownloader_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new YouTubeDownloader(MainWindow2, _Gast));
+        }
     }
 }

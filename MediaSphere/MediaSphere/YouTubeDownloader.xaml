@@ -1,0 +1,191 @@
+﻿<UserControl x:Class="MediaSphere.YouTubeDownloader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpfAnimatedGif="http://wpfanimatedgif.codeplex.com"
+             mc:Ignorable="d"
+             d:DesignHeight="850" d:DesignWidth="1400">
+
+    <UserControl.Resources>
+
+    
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#333"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        
+        <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Background" Value="#333"/>
+            <Setter Property="Foreground" Value="#1A73E8"/>
+        </Style>
+
+      
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#1A73E8"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#1A73E8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+      
+        <Border Grid.Column="0" Background="#1C1C1E">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Image Source="/MediaSphereLogo.png" Height="120" Margin="0,20,0,20" Stretch="Uniform" HorizontalAlignment="Center"/>
+
+                <StackPanel Grid.Row="1" Margin="20,0" VerticalAlignment="Bottom">
+                    <Button Name="ButtonStartseite" Content="🏠 Startseite" Style="{StaticResource SidebarButtonStyle}" Click="ButtonStartseite_Click"/>
+                    <Button Name="ButtonMediathekErweitern" Content="➕ Datei der Mediathek hinzufügen" Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathekErweitern_Click"/>
+                    <Button Name="ButtonMediathek" Content="📁 Mediathek" Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathek_Click"/>
+                    <Button Name="ButtonPlaylist" Content="📃 Playlists" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Content="📺 YouTube Downloader" Style="{StaticResource ActiveSidebarButtonStyle}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="20,10" VerticalAlignment="Bottom">
+                    <Button Name="ButtonAbmelden" Content="🚪 Abmelden" Style="{StaticResource SidebarButtonStyle}" Click="ButtonAbmelden_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+     
+        <Grid Grid.Column="1" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+           
+            <Grid Margin="40,40,40,20" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="700"/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="TextBoxYouTubeLink"
+                         Height="40"
+                         FontSize="16"
+                         Padding="10,5"
+                         Foreground="Gray"
+                         VerticalContentAlignment="Center" Text="YouTube-Link hier einfügen..."
+                         GotFocus="TextBoxYouTubeLink_GotFocus"
+                         LostFocus="TextBoxYouTubeLink_LostFocus"/>
+
+                <Button Name="ButtonAnalyse" Grid.Column="1"
+                        Content="🔍 Analysieren"
+                        Width="150"
+                        Height="40"
+                        Style="{StaticResource ActionButtonStyle}" Click="ButtonAnalyse_Click"/>
+            </Grid>
+
+           
+            <StackPanel Grid.Row="1" Margin="40,20,40,20" VerticalAlignment="Top">
+                <Image x:Name="LoadingImage"
+                   Width="250"
+                   Height="250"
+                   Margin="0,50,0,0"
+                   Visibility="Collapsed" Source="/loading.gif"/>
+
+                <Border Background="#F5F5F5" CornerRadius="8" Padding="20" Visibility="Collapsed" x:Name="BorderVideoInfo">
+                    <StackPanel>
+
+                        <TextBlock Text="Titel:"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,5"/>
+
+                        
+                        <TextBox x:Name="TextBoxTitel"
+                                 FontSize="16"     
+                                 Height="40"
+                                 VerticalContentAlignment="Center"
+                                 Margin="0,0,0,15"
+                                 Text="Video Titel erscheint hier..."/>
+
+                       
+                        <TextBlock Text="Kategorie:"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Margin="0,10,0,5"/>
+
+                        
+                        <ComboBox x:Name="ComboBoxKategorie"
+                                  Height="40"
+                                  FontSize="16"
+                                  VerticalContentAlignment="Center"
+                                  Margin="0,0,0,15">
+                            <ComboBoxItem Content="Musik"/>
+                            <ComboBoxItem Content="Podcast"/>
+                            <ComboBoxItem Content="Film"/>
+                            <ComboBoxItem Content="Hörbuch"/>
+                            <ComboBoxItem Content="Sonstiges"/>
+                        </ComboBox>
+
+                       
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                            <Button Name="ButtonAudio" Content="🎵 Nur Audio herunterladen"
+                                    Width="200"
+                                    Margin="0,0,10,0"
+                                    Style="{StaticResource ActionButtonStyle}" Click="ButtonAudio_Click"/>
+
+                            <Button Name="ButtonVideo" Content="🎥 Video herunterladen"
+                                    Width="180"
+                                    Style="{StaticResource ActionButtonStyle}" Click="ButtonVideo_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Image x:Name="LoadingImage2"
+                   Width="250"
+                   Height="250"
+                   Margin="0,50,0,0"
+                   Visibility="Collapsed" Source="/loading.gif"/>
+
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</UserControl>

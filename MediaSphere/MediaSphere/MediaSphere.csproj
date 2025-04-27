@@ -10,10 +10,20 @@
 
   <ItemGroup>
     <None Remove="BlueSuccess.png" />
-    <None Remove="Images\BlueSuccess.png" />
-    <None Remove="Images\warning-xxl.png" />
+    <None Remove="ffmpeg.exe" />
+    <None Remove="loading.gif" />
     <None Remove="MediaSphereLogo.png" />
     <None Remove="warning-xxl.png" />
+    <None Remove="yt-dlp.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="yt-dlp.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -27,18 +37,23 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="BlueSuccess.png" />
-    <Resource Include="Images\BlueSuccess.png">
+    <Content Include="BlueSuccess.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\warning-xxl.png">
+    </Content>
+    <Content Include="MediaSphereLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="MediaSphereLogo.png" />
-    <Resource Include="warning-xxl.png" />
+    </Content>
+    <Content Include="warning-xxl.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="loading.gif" />
   </ItemGroup>
 
   <ItemGroup>
