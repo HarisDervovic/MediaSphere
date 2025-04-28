@@ -122,7 +122,7 @@
             </Grid>
 
            
-            <StackPanel Grid.Row="1" Margin="40,20,40,20" VerticalAlignment="Top">
+            <StackPanel Grid.Row="1" Margin="40,10,40,20" VerticalAlignment="Top">
                 <Image x:Name="LoadingImage"
                    Width="250"
                    Height="250"
@@ -164,7 +164,25 @@
                             <ComboBoxItem Content="Sonstiges"/>
                         </ComboBox>
 
-                       
+                        
+                        <TextBlock Text="Auflösung:"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Margin="0,10,0,5"/>
+
+                        <ComboBox x:Name="ComboBoxAuflösung"
+                          Height="40"
+                          FontSize="16"
+                          VerticalContentAlignment="Center"
+                          Margin="0,0,0,15"
+                          SelectedIndex="2">
+                                    <ComboBoxItem Content="360p"/>
+                                    <ComboBoxItem Content="480p"/>
+                                    <ComboBoxItem Content="720p"/>
+                                    <ComboBoxItem Content="1080p"/>
+                                    <ComboBoxItem Content="2160p"/>
+                        </ComboBox>
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
                             <Button Name="ButtonAudio" Content="🎵 Nur Audio herunterladen"
                                     Width="200"
@@ -181,13 +199,13 @@
                 <Image x:Name="LoadingImage2"
                    Width="250"
                    Height="250"
-                   Margin="0,50,0,0"
+                   Margin="0,20,0,0"
                    Visibility="Collapsed" Source="/loading.gif"/>
 
                 <Button Name="ButtonAbbrechen"
                     Content="🛑 Download abbrechen"
                     Width="250"
-                    Margin="0,40,0,0"
+                    Margin="0,15,0,0"
                     Visibility="Collapsed"
                     Style="{StaticResource ActionButtonStyle}"
                     Click="ButtonAbbrechen_Click"/>

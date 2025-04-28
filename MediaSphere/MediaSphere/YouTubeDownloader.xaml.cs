@@ -209,9 +209,12 @@ namespace MediaSphere
                 }
                 Directory.CreateDirectory(tempFolder);
 
+                string selectedResolution = (ComboBoxAuflösung.SelectedItem as ComboBoxItem)?.Content.ToString().Replace("p", "");
+
                 string arguments = audioOnly
-                     ? $"-f bestaudio --extract-audio --audio-format mp3 -o \"{Path.Combine(tempFolder, "%(title)s.%(ext)s")}\" {YouTubeUrl}"
-                     : $"-f \"(bestvideo[ext=mp4][vcodec^=avc1][height<=720]+bestaudio[ext=m4a]/best[ext=mp4][vcodec^=avc1][height<=720]/bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a]/best[ext=mp4][vcodec^=avc1])\" -o \"{Path.Combine(tempFolder, "%(title)s.%(ext)s")}\" {YouTubeUrl}";
+                ? $"-f bestaudio --extract-audio --audio-format mp3 -o \"{Path.Combine(tempFolder, "%(title)s.%(ext)s")}\" {YouTubeUrl}"
+                : $"-f \"(bestvideo[ext=mp4][vcodec^=avc1][height<={selectedResolution}]+bestaudio[ext=m4a]/best[ext=mp4][vcodec^=avc1][height<={selectedResolution}]/bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a]/best[ext=mp4][vcodec^=avc1])\" -o \"{Path.Combine(tempFolder, "%(title)s.%(ext)s")}\" {YouTubeUrl}";
+
 
 
 
@@ -275,9 +278,12 @@ namespace MediaSphere
                         command.ExecuteNonQuery();
                     }
 
+                    ButtonAbbrechen.Visibility = Visibility.Collapsed;
+
                     LoadingImage2.Visibility = Visibility.Collapsed;
                     WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
 
+                    
                     var dialog = new CustomDialog("Download abgeschlossen!", true);
                     dialog.Owner = Window.GetWindow(this);
                     dialog.ShowDialog();
@@ -289,11 +295,11 @@ namespace MediaSphere
                 }
                 else
                 {
+                    ButtonAbbrechen.Visibility = Visibility.Collapsed;
 
                     LoadingImage2.Visibility = Visibility.Collapsed;
                     WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
-
-
+                    
                     var dialog = new CustomDialog("Download fehlgeschlagen.", false);
                     dialog.Owner = Window.GetWindow(this);
                     dialog.ShowDialog();
@@ -306,11 +312,13 @@ namespace MediaSphere
             }
             catch (Exception ex)
             {
+                ButtonAbbrechen.Visibility = Visibility.Collapsed;
 
                 LoadingImage2.Visibility = Visibility.Collapsed;
                 WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
+               
 
-                if(!downloadCancelled)
+                if (!downloadCancelled)
                 {
                     var dialog = new CustomDialog($"Fehler beim Download: {ex.Message}", false);
                     dialog.Owner = Window.GetWindow(this);
@@ -340,9 +348,6 @@ namespace MediaSphere
                     LoadingImage2.Visibility = Visibility.Collapsed;
                     WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage, null);
                     WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
-                    //var dialog = new CustomDialog("Download abgebrochen.", false);
-                    //dialog.Owner = Window.GetWindow(this);
-                    //dialog.ShowDialog();
                 }
             }
             catch (Exception ex)
