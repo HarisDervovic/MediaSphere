@@ -37,6 +37,9 @@ namespace MediaSphere
         private string YouTubeUrl = "";
         private string VideoId = "";
 
+        private Process currentDownloadProcess;
+        private bool downloadCancelled = false;
+
         public YouTubeDownloader(MainWindow2 mainwindow2, bool Gast)
         {
             InitializeComponent();
@@ -178,6 +181,9 @@ namespace MediaSphere
                 return;
             }
 
+            MainWindow2.MediaPlayer.Pause();
+            MainWindow2.DockPlayer.Visibility = Visibility.Collapsed; //Damit der ButtonAbbrechen nicht verdeckt wird.
+
             ButtonAnalyse.IsEnabled = false;
             ButtonAudio.IsEnabled = false;
             ButtonVideo.IsEnabled = false;
@@ -188,6 +194,8 @@ namespace MediaSphere
 
             WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, image);
             LoadingImage2.Visibility = Visibility.Visible;
+
+            ButtonAbbrechen.Visibility = Visibility.Visible;
 
             try
             {
@@ -219,10 +227,16 @@ namespace MediaSphere
                     StandardErrorEncoding = System.Text.Encoding.UTF8
                 };
 
-                using (var process = Process.Start(startInfo))
+
+                currentDownloadProcess = Process.Start(startInfo); 
+                await currentDownloadProcess.WaitForExitAsync();
+                currentDownloadProcess = null;
+
+                if (downloadCancelled)
                 {
-                    await process.WaitForExitAsync();
+                    throw new OperationCanceledException("Download vom Benutzer abgebrochen.");
                 }
+
 
                 // Gespeicherte Datei finden und verschieben
                 string downloadedFile = Directory.GetFiles(tempFolder).FirstOrDefault();
@@ -279,6 +293,7 @@ namespace MediaSphere
                     LoadingImage2.Visibility = Visibility.Collapsed;
                     WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
 
+
                     var dialog = new CustomDialog("Download fehlgeschlagen.", false);
                     dialog.Owner = Window.GetWindow(this);
                     dialog.ShowDialog();
@@ -294,17 +309,56 @@ namespace MediaSphere
 
                 LoadingImage2.Visibility = Visibility.Collapsed;
                 WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
-                MessageBox.Show(ex.Message);
-                var dialog = new CustomDialog($"Fehler beim Download: {ex.Message}", false);
-                dialog.Owner = Window.GetWindow(this);
-                dialog.ShowDialog();
 
-                
+                if(!downloadCancelled)
+                {
+                    var dialog = new CustomDialog($"Fehler beim Download: {ex.Message}", false);
+                    dialog.Owner = Window.GetWindow(this);
+                    dialog.ShowDialog();
+                }
+               
+
+                downloadCancelled = false;
                 ButtonAnalyse.IsEnabled = true;
                 ButtonAudio.IsEnabled = true;
                 ButtonVideo.IsEnabled = true;
             }
         }
+
+        private void ButtonAbbrechen_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (currentDownloadProcess != null && !currentDownloadProcess.HasExited)
+                {
+                    currentDownloadProcess.Kill(true); // true = auch Unterprozesse killen
+                    downloadCancelled = true;
+                    currentDownloadProcess = null;
+
+                    ButtonAbbrechen.Visibility = Visibility.Collapsed;
+                    LoadingImage.Visibility = Visibility.Collapsed;
+                    LoadingImage2.Visibility = Visibility.Collapsed;
+                    WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage, null);
+                    WpfAnimatedGif.ImageBehavior.SetAnimatedSource(LoadingImage2, null);
+                    //var dialog = new CustomDialog("Download abgebrochen.", false);
+                    //dialog.Owner = Window.GetWindow(this);
+                    //dialog.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Abbrechen: {ex.Message}");
+            }
+            finally
+            {
+               
+                ButtonAnalyse.IsEnabled = true;
+                ButtonAudio.IsEnabled = true;
+                ButtonVideo.IsEnabled = true;
+                
+            }
+        }
+
 
     }
 }

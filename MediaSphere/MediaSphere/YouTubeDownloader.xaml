@@ -184,6 +184,14 @@
                    Margin="0,50,0,0"
                    Visibility="Collapsed" Source="/loading.gif"/>
 
+                <Button Name="ButtonAbbrechen"
+                    Content="🛑 Download abbrechen"
+                    Width="250"
+                    Margin="0,40,0,0"
+                    Visibility="Collapsed"
+                    Style="{StaticResource ActionButtonStyle}"
+                    Click="ButtonAbbrechen_Click"/>
+
             </StackPanel>
 
         </Grid>
