@@ -184,5 +184,50 @@ namespace MediaSphere
             }
         }
 
+        private void ListBoxPlaylists_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var ausgewaehltePlaylist = ListBoxPlaylists.SelectedItem as Playlist;
+            if (ausgewaehltePlaylist == null)
+                return;
+
+            TextBlockPlaylistTitel.Text = $"📃 {ausgewaehltePlaylist.Name}";
+            ListViewPlaylistMedien.ItemsSource = LadeMedienDerPlaylist(ausgewaehltePlaylist.PlaylistID);
+            ListViewPlaylistMedien.Visibility = Visibility.Visible;
+        }
+
+        private List<Medium> LadeMedienDerPlaylist(int playlistId)
+        {
+            var medien = new List<Medium>();
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = @"
+            SELECT m.MedienID, m.Pfad, m.Typ, m.Titel, m.Kategorie
+            FROM PlaylistMedien pm
+            INNER JOIN Medien m ON pm.MedienID = m.MedienID
+            WHERE pm.PlaylistID = @PlaylistID
+            ORDER BY pm.Reihenfolge";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@PlaylistID", playlistId);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            medien.Add(new Medium
+                            {
+                                MedienID = Convert.ToInt32(reader["MedienID"]),
+                                Pfad = reader["Pfad"].ToString(),
+                                Typ = reader["Typ"].ToString(),
+                                Titel = reader["Titel"].ToString(),
+                                Kategorie = reader["Kategorie"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return medien;
+        }
     }
 }

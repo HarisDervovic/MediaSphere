@@ -88,7 +88,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Eingabe für neue Playlist -->
+            
             <Grid Grid.Row="0" Margin="40,30,40,20">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -119,7 +119,7 @@
                  Margin="5,0,0,110"
                  Background="WhiteSmoke"
                  BorderThickness="0"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionChanged="ListBoxPlaylists_SelectionChanged">
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -177,33 +177,53 @@
                 </ListBox>
 
 
-
-
-
-               
                 <Border Grid.Column="1" Background="White" BorderBrush="LightGray" BorderThickness="1" Padding="10" Margin="0,0,5,110">
                     <DockPanel>
                         <TextBlock x:Name="TextBlockPlaylistTitel" FontSize="20" FontWeight="Bold" DockPanel.Dock="Top" Margin="0,0,0,10"/>
                         <ListView x:Name="ListViewPlaylistMedien" Visibility="Collapsed">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Titel" Width="300" DisplayMemberBinding="{Binding Titel}"/>
-                                    <GridViewColumn Header="Typ" Width="100" DisplayMemberBinding="{Binding Typ}"/>
-                                    <GridViewColumn Header="Aktionen" Width="150">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Button Content="▶️" Width="40" Margin="0,0,5,0" />
-                                                    <Button Content="❌" Width="40" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#F5F5F5" Margin="0,0,0,12" Padding="10" CornerRadius="8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="{Binding Titel}" FontSize="15" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding Typ}" FontSize="12" Foreground="Gray"/>
+                                                <TextBlock Text="{Binding Kategorie}" FontSize="12" Foreground="Gray"/>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                <Button Content="▶" ToolTip="Abspielen" Width="40" Height="35" Margin="5,0,0,0" Background="#1A73E8" Foreground="White"/>
+                                                
+                                                <Grid Width="40" Height="35" Margin="5,0,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Button Content="▲" Grid.Row="0" Height="16" VerticalAlignment="Top" Padding="0,-1,0,1" Background="#1A73E8" Foreground="White" BorderThickness="0" FontSize="12" ToolTip="Nach oben"/>
+                                                    <Button Content="▼" Grid.Row="1" Height="16" VerticalAlignment="Bottom" Padding="0,-1,0,1" Background="#1A73E8" Foreground="White" BorderThickness="0" FontSize="12" ToolTip="Nach unten"/>
+                                                </Grid>
+                                                
+                                                <Button Content="🗑️" ToolTip="Löschen" Width="40" Height="35" Margin="5,0,0,0" Background="#1A73E8" Foreground="White"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </DockPanel>
                 </Border>
+                
             </Grid>
         </Grid>
     </Grid>
