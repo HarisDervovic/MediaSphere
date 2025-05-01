@@ -1,0 +1,210 @@
+﻿<UserControl x:Class="MediaSphere.Playlists"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaSphere"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1400">
+
+    <UserControl.Resources>
+       
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#333"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Background" Value="#333"/>
+            <Setter Property="Foreground" Value="#1A73E8"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+       
+        <Border Grid.Column="0" Background="#1C1C1E">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Image Source="/MediaSphereLogo.png"
+                       Height="120"
+                       Margin="0,20,0,20"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center"/>
+
+                <StackPanel Grid.Row="1" Margin="20,0" VerticalAlignment="Bottom">
+                    <Button Content="🏠 Startseite" Style="{StaticResource SidebarButtonStyle}" Click="ButtonStartseite_Click"/>
+                    <Button Content="➕ Datei der Mediathek hinzufügen" Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathekErweitern_Click"/>
+                    <Button Content="📁 Mediathek" Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathek_Click"/>
+                    <Button Content="📃 Playlists" Style="{StaticResource ActiveSidebarButtonStyle}"/>
+                    <Button Content="📺 YouTube Downloader" Style="{StaticResource SidebarButtonStyle}" Click="ButtonDownloader_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="20,10" VerticalAlignment="Bottom">
+                    <Button Content="🚪 Abmelden" Style="{StaticResource SidebarButtonStyle}" Click="ButtonAbmelden_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        
+        <Grid Grid.Column="1" Background="#F5F5F5" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Eingabe für neue Playlist -->
+            <Grid Grid.Row="0" Margin="40,30,40,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="130"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Text="📃 Neue Playlist erstellen" VerticalAlignment="Center" FontSize="18" Margin="5,0,10,5"/>
+                <TextBox  Grid.Row="1" Grid.Column="0" FontSize="16" x:Name="TextBoxNeuePlaylist" Foreground="Gray" Height="40" Padding="10,5" VerticalContentAlignment="Center" Text="Name der Playlist..." GotFocus="TextBoxNeuePlaylist_GotFocus" LostFocus="TextBoxNeuePlaylist_LostFocus"/>
+                <Button Name="ButtonErstellen" Grid.Row="1" Grid.Column="1" Content="Erstellen" Height="40" Background="#1A73E8" Foreground="White" FontWeight="Bold" Click="ButtonErstellen_Click"/>
+            </Grid>
+           
+
+            
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+               
+                <ListBox x:Name="ListBoxPlaylists"
+                 Grid.Column="0"
+                 Margin="5,0,0,5"
+                 Background="WhiteSmoke"
+                 BorderThickness="0"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White"
+                                CornerRadius="10"
+                                Margin="5"
+                                Padding="10"
+                                BorderBrush="#D0D0D0"
+                                BorderThickness="1">
+                                <Grid Width="235">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    
+                                    <TextBlock Text="{Binding Name}"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="Black"
+                                       VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTip="{Binding Name}" />
+
+                                   
+                                    <Button Grid.Column="1"
+                                        Content="▶️"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Background="#1A73E8"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Cursor="Hand"/>
+
+                                    
+                                    <Button Grid.Column="2"
+                                        Content="🗑️"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Background="#1A73E8"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Cursor="Hand"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+
+
+
+               
+                <Border Grid.Column="1" Background="White" BorderBrush="LightGray" BorderThickness="1" Padding="10" Margin="0,0,5,5">
+                    <DockPanel>
+                        <TextBlock x:Name="TextBlockPlaylistTitel" FontSize="20" FontWeight="Bold" DockPanel.Dock="Top" Margin="0,0,0,10"/>
+                        <ListView x:Name="ListViewPlaylistMedien" Visibility="Collapsed">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Titel" Width="300" DisplayMemberBinding="{Binding Titel}"/>
+                                    <GridViewColumn Header="Typ" Width="100" DisplayMemberBinding="{Binding Typ}"/>
+                                    <GridViewColumn Header="Aktionen" Width="150">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Content="▶️" Width="40" Margin="0,0,5,0" />
+                                                    <Button Content="❌" Width="40" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -26,6 +26,8 @@ namespace MediaSphere
 
         public DispatcherTimer Timer;
 
+        public string Benutzer;
+
         public void InitMediaTimer()
         {
             if (Timer != null)
@@ -67,7 +69,7 @@ namespace MediaSphere
         public MainWindow2(string Benutzername, bool Gast)
         {
             InitializeComponent();
-           
+            Benutzer = Benutzername;
             SwitchView(new Startseite(this,Gast));
         }
 

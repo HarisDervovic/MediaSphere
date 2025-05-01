@@ -81,7 +81,7 @@
                     <Button Name="ButtonStartseite" Content="🏠 Startseite" Style="{StaticResource SidebarButtonStyle}" Click="ButtonStartseite_Click"/>
                     <Button Name="ButtonMediathekErweitern" Content="➕ Datei der Mediathek hinzufügen" Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathekErweitern_Click"/>
                     <Button Name="ButtonMediathek" Content="📁 Mediathek" Style="{StaticResource SidebarButtonStyle}" Click="ButtonMediathek_Click"/>
-                    <Button Name="ButtonPlaylist" Content="📃 Playlists" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Name="ButtonPlaylist" Content="📃 Playlists" Style="{StaticResource SidebarButtonStyle}" Click="ButtonPlaylist_Click"/>
                     <Button Content="📺 YouTube Downloader" Style="{StaticResource ActiveSidebarButtonStyle}"/>
                 </StackPanel>
 
@@ -101,7 +101,7 @@
            
             <Grid Margin="40,40,40,20" Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="700"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
 

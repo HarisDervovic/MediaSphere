@@ -364,6 +364,9 @@ namespace MediaSphere
             }
         }
 
-
+        private void ButtonPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new Playlists(MainWindow2, _Gast));
+        }
     }
 }

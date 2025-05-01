@@ -102,7 +102,7 @@
                     <Button Name="ButtonStartseite" Content="🏠 Startseite" Style="{StaticResource SidebarButtonStyle}" Click="ButtonStartseite_Click"/>
                     <Button Content="➕ Datei der Mediathek hinzufügen" Style="{StaticResource ActiveSidebarButtonStyle}"/>
                     <Button Content="📁 Mediathek" Style="{StaticResource SidebarButtonStyle}" Click="Button_Click"/>
-                    <Button Name="ButtonPlaylist" Content="📃 Playlists" Style="{StaticResource SidebarButtonStyle}"/>
+                    <Button Name="ButtonPlaylist" Content="📃 Playlists" Style="{StaticResource SidebarButtonStyle}" Click="ButtonPlaylist_Click"/>
                     <Button Name="ButtonDownloader" Content="📺 YouTube Downloader" Style="{StaticResource SidebarButtonStyle}" Click="ButtonDownloader_Click"/>
                 </StackPanel>
 

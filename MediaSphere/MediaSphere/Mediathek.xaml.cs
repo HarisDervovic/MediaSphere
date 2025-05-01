@@ -239,5 +239,10 @@ namespace MediaSphere
         {
             MainWindow2.SwitchView(new YouTubeDownloader(MainWindow2, _Gast));
         }
+
+        private void ButtonPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow2.SwitchView(new Playlists(MainWindow2, _Gast));
+        }
     }
 }
