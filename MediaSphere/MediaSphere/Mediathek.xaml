@@ -227,7 +227,7 @@
 
                                     <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                                         <Button Name="ButtonAbspielen" Content="▶" ToolTip="Abspielen" Style="{StaticResource MediaActionButton}" Click="ButtonAbspielen_Click"/>
-                                        <Button Content="➕" ToolTip="Zur Playlist hinzufügen" Style="{StaticResource MediaActionButton}"/>
+                                        <Button Name="ButtonMediumPlaylist" Content="➕" ToolTip="Zur Playlist hinzufügen" Style="{StaticResource MediaActionButton}" Click="ButtonMediumPlaylist_Click" />
                                         <Button Name="ButtonLoeschen" Content="🗑️" ToolTip="Löschen" Style="{StaticResource MediaActionButton}" Click="ButtonLoeschen_Click"/>
                                     </StackPanel>
                                 </Grid>

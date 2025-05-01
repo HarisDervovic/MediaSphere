@@ -1,0 +1,77 @@
+﻿<Window x:Class="MediaSphere.MediumPlaylistHinzufügen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Zur Playlist hinzufügen"
+        Height="230"
+        Width="460"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="Transparent"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Border Background="White"
+            CornerRadius="12"
+            Padding="25"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+          
+            <TextBlock Text="Wähle eine Playlist aus"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#1A73E8"
+                       Margin="0,0,0,15"/>
+
+            
+            <ComboBox x:Name="ComboBoxPlaylists"
+                      Grid.Row="1"
+                      FontSize="16"
+                      Height="40"
+                      DisplayMemberPath="Name"
+                      Background="White"
+                      BorderBrush="#1A73E8"
+                      BorderThickness="1.5"
+                      VerticalContentAlignment="Center"
+                      Margin="0,0,0,20"/>
+
+           
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Name="ButtonHinzufügen"
+                        Content="Hinzufügen"
+                        Width="110"
+                        Height="36"
+                        Background="#1A73E8"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Margin="0,0,10,0"
+                        Click="ButtonHinzufuegen_Click"/>
+
+                <Button Name="ButtonAbbrechen"
+                        Content="Abbrechen"
+                        Width="110"
+                        Height="36"
+                        Background="#E0E0E0"
+                        Foreground="Black"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="ButtonAbbrechen_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

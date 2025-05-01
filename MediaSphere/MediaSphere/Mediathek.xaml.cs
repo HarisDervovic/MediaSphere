@@ -23,17 +23,6 @@ namespace MediaSphere
     /// </summary>
     /// 
 
-    public class Medium
-    {
-        public int MedienID { get; set; }
-        public string Pfad { get; set; }
-        public string Typ { get; set; }
-        public string Titel { get; set; }
-        public string Kategorie { get; set; }
-    }
-
-
-
     public partial class Mediathek : UserControl
     {
         private static readonly string appFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MediaSphere");
@@ -243,6 +232,18 @@ namespace MediaSphere
         private void ButtonPlaylist_Click(object sender, RoutedEventArgs e)
         {
             MainWindow2.SwitchView(new Playlists(MainWindow2, _Gast));
+        }
+
+        private void ButtonMediumPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+
+            if (medium == null) return;
+
+            var fenster = new MediumPlaylistHinzufügen(medium, MainWindow2.Benutzer);
+            fenster.Owner = Window.GetWindow(this);
+            fenster.ShowDialog();
         }
     }
 }
