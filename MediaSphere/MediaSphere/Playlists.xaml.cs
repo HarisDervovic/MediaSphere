@@ -202,11 +202,11 @@ namespace MediaSphere
             {
                 connection.Open();
                 string query = @"
-            SELECT m.MedienID, m.Pfad, m.Typ, m.Titel, m.Kategorie
-            FROM PlaylistMedien pm
-            INNER JOIN Medien m ON pm.MedienID = m.MedienID
-            WHERE pm.PlaylistID = @PlaylistID
-            ORDER BY pm.Reihenfolge";
+                    SELECT m.MedienID, m.Pfad, m.Typ, m.Titel, m.Kategorie
+                    FROM PlaylistMedien pm
+                    INNER JOIN Medien m ON pm.MedienID = m.MedienID
+                    WHERE pm.PlaylistID = @PlaylistID
+                    ORDER BY pm.Reihenfolge";
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
@@ -229,5 +229,264 @@ namespace MediaSphere
             }
             return medien;
         }
+
+        private void ButtonAbspielen_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+
+            if (medium == null || string.IsNullOrWhiteSpace(medium.Pfad))
+                return;
+
+            try
+            {
+                var mediaPlayer = MainWindow2.FindName("MediaPlayer") as MediaElement;
+                var titelTextBlockAudio = MainWindow2.FindName("TextBlockAktuellerTitelAudio") as TextBlock;
+                var titelTextBlockVideo = MainWindow2.FindName("TextBlockAktuellerTitelVideo") as TextBlock;
+                var dockPanel = MainWindow2.FindName("DockPlayer") as DockPanel;
+                var videoOverlay = MainWindow2.FindName("VideoOverlay") as Grid;
+
+                if (mediaPlayer != null)
+                {
+                    mediaPlayer.Stop();
+                    mediaPlayer.Source = new Uri(medium.Pfad, UriKind.Absolute);
+                    mediaPlayer.Play();
+                }
+
+
+
+                if (medium.Typ.ToLower() == "mp3")
+                {
+
+                    titelTextBlockAudio.Text = $"🎵 {medium.Titel}";
+
+                    if (dockPanel != null)
+                        dockPanel.Visibility = Visibility.Visible;
+
+                    if (videoOverlay != null)
+                        videoOverlay.Visibility = Visibility.Collapsed;
+                }
+                else if (medium.Typ.ToLower() == "mp4")
+                {
+
+                    titelTextBlockVideo.Text = $"🎬 {medium.Titel}";
+
+                    if (videoOverlay != null)
+                        videoOverlay.Visibility = Visibility.Visible;
+
+                    if (dockPanel != null)
+                        dockPanel.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch (Exception ex)
+            {
+                var dialog = new CustomDialog("Fehler beim Abspielen: " + ex.Message, false);
+                dialog.Owner = Window.GetWindow(this);
+                dialog.ShowDialog();
+            }
+
+            var ButtonPlayPauseAudio = MainWindow2.FindName("ButtonPlayPauseAudio") as Button;
+            var ButtonPlayPauseVideo = MainWindow2.FindName("ButtonPlayPauseVideo") as Button;
+
+            ButtonPlayPauseAudio.Content = "⏸";
+            ButtonPlayPauseVideo.Content = "⏸";
+            MainWindow2.InitMediaTimer();
+        }
+
+
+
+
+        private void ButtonLöschen_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+            var ausgewaehltePlaylist = ListBoxPlaylists.SelectedItem as Playlist;
+
+            if (medium == null || ausgewaehltePlaylist == null)
+                return;
+
+            
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+
+                
+                int aktuelleReihenfolge = 0;
+                string getReihenfolgeQuery = @"
+                    SELECT Reihenfolge 
+                    FROM PlaylistMedien 
+                    WHERE PlaylistID = @PlaylistID AND MedienID = @MedienID";
+
+                using (var cmd = new SQLiteCommand(getReihenfolgeQuery, connection))
+                {
+                    cmd.Parameters.AddWithValue("@PlaylistID", ausgewaehltePlaylist.PlaylistID);
+                    cmd.Parameters.AddWithValue("@MedienID", medium.MedienID);
+                    var resultValue = cmd.ExecuteScalar();
+                    if (resultValue != null)
+                        aktuelleReihenfolge = Convert.ToInt32(resultValue);
+                }
+
+               
+                string deleteQuery = @"
+                    DELETE FROM PlaylistMedien 
+                    WHERE PlaylistID = @PlaylistID AND MedienID = @MedienID";
+
+                using (var deleteCmd = new SQLiteCommand(deleteQuery, connection))
+                {
+                    deleteCmd.Parameters.AddWithValue("@PlaylistID", ausgewaehltePlaylist.PlaylistID);
+                    deleteCmd.Parameters.AddWithValue("@MedienID", medium.MedienID);
+                    deleteCmd.ExecuteNonQuery();
+                }
+
+                //Alle Medien mit höherer Reihenfolge anpassen (-1)
+                string updateQuery = @"
+                    UPDATE PlaylistMedien 
+                    SET Reihenfolge = Reihenfolge - 1 
+                    WHERE PlaylistID = @PlaylistID AND Reihenfolge > @AktuelleReihenfolge";
+
+                using (var updateCmd = new SQLiteCommand(updateQuery, connection))
+                {
+                    updateCmd.Parameters.AddWithValue("@PlaylistID", ausgewaehltePlaylist.PlaylistID);
+                    updateCmd.Parameters.AddWithValue("@AktuelleReihenfolge", aktuelleReihenfolge);
+                    updateCmd.ExecuteNonQuery();
+                }
+            }
+
+            ListViewPlaylistMedien.ItemsSource = LadeMedienDerPlaylist(ausgewaehltePlaylist.PlaylistID); 
+        }
+
+        private void ButtonReihenfolgeHoch_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+            var playlist = ListBoxPlaylists.SelectedItem as Playlist;
+
+            if (medium == null || playlist == null)
+                return;
+
+            int aktuelleReihenfolge = GetReihenfolge(playlist.PlaylistID, medium.MedienID);
+            if (aktuelleReihenfolge <= 1) return; // Schon ganz oben
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    // Finde das Medium darüber
+                    string query = @"
+                        SELECT MedienID FROM PlaylistMedien
+                        WHERE PlaylistID = @pid AND Reihenfolge = @reihenfolge";
+
+                    int andereMedienID = -1;
+                    using (var command = new SQLiteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@pid", playlist.PlaylistID);
+                        command.Parameters.AddWithValue("@reihenfolge", aktuelleReihenfolge - 1);
+                        var result = command.ExecuteScalar();
+                        if (result == null) return;
+                        andereMedienID = Convert.ToInt32(result);
+                    }
+
+                    // Vertausche die Reihenfolgen
+                    string update1 = "UPDATE PlaylistMedien SET Reihenfolge = Reihenfolge + 1 WHERE PlaylistID = @pid AND MedienID = @mid";
+                    using (var cmd1 = new SQLiteCommand(update1, connection))
+                    {
+                        cmd1.Parameters.AddWithValue("@pid", playlist.PlaylistID);
+                        cmd1.Parameters.AddWithValue("@mid", andereMedienID);
+                        cmd1.ExecuteNonQuery();
+                    }
+
+                    string update2 = "UPDATE PlaylistMedien SET Reihenfolge = Reihenfolge - 1 WHERE PlaylistID = @pid AND MedienID = @mid";
+                    using (var cmd2 = new SQLiteCommand(update2, connection))
+                    {
+                        cmd2.Parameters.AddWithValue("@pid", playlist.PlaylistID);
+                        cmd2.Parameters.AddWithValue("@mid", medium.MedienID);
+                        cmd2.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+            }
+
+            ListViewPlaylistMedien.ItemsSource = LadeMedienDerPlaylist(playlist.PlaylistID);
+        }
+
+
+        private void ButtonReihenfolgeRunter_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var medium = button?.DataContext as Medium;
+            var playlist = ListBoxPlaylists.SelectedItem as Playlist;
+
+            if (medium == null || playlist == null)
+                return;
+
+            int aktuelleReihenfolge = GetReihenfolge(playlist.PlaylistID, medium.MedienID);
+            if (aktuelleReihenfolge <= 0) return;
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    // Finde das Medium darunter
+                    string query = @"
+                        SELECT MedienID FROM PlaylistMedien
+                        WHERE PlaylistID = @pid AND Reihenfolge = @reihenfolge";
+
+                    int andereMedienID = -1;
+                    using (var command = new SQLiteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@pid", playlist.PlaylistID);
+                        command.Parameters.AddWithValue("@reihenfolge", aktuelleReihenfolge + 1);
+                        var result = command.ExecuteScalar();
+                        if (result == null) return;
+                        andereMedienID = Convert.ToInt32(result);
+                    }
+
+                    // Vertausche die Reihenfolgen
+                    string update1 = "UPDATE PlaylistMedien SET Reihenfolge = Reihenfolge - 1 WHERE PlaylistID = @pid AND MedienID = @mid";
+                    using (var cmd1 = new SQLiteCommand(update1, connection))
+                    {
+                        cmd1.Parameters.AddWithValue("@pid", playlist.PlaylistID);
+                        cmd1.Parameters.AddWithValue("@mid", andereMedienID);
+                        cmd1.ExecuteNonQuery();
+                    }
+
+                    string update2 = "UPDATE PlaylistMedien SET Reihenfolge = Reihenfolge + 1 WHERE PlaylistID = @pid AND MedienID = @mid";
+                    using (var cmd2 = new SQLiteCommand(update2, connection))
+                    {
+                        cmd2.Parameters.AddWithValue("@pid", playlist.PlaylistID);
+                        cmd2.Parameters.AddWithValue("@mid", medium.MedienID);
+                        cmd2.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+            }
+
+            ListViewPlaylistMedien.ItemsSource = LadeMedienDerPlaylist(playlist.PlaylistID);
+        }
+
+
+        private int GetReihenfolge(int playlistId, int medienId)
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Reihenfolge FROM PlaylistMedien WHERE PlaylistID = @pid AND MedienID = @mid";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@pid", playlistId);
+                    command.Parameters.AddWithValue("@mid", medienId);
+
+                    var result = command.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : -1;
+                }
+            }
+        }
+
     }
 }

@@ -179,7 +179,9 @@ namespace MediaSphere
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Abspielen: {ex.Message}", "Abspielen", MessageBoxButton.OK, MessageBoxImage.Error);
+                var dialog = new CustomDialog("Fehler beim Abspielen: " + ex.Message, false);
+                dialog.Owner = Window.GetWindow(this);
+                dialog.ShowDialog();
             }
 
             var ButtonPlayPauseAudio = MainWindow2.FindName("ButtonPlayPauseAudio") as Button;

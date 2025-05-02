@@ -146,7 +146,7 @@
                                        ToolTip="{Binding Name}" />
 
                                    
-                                    <Button Grid.Column="1"
+                                    <Button Name="ButtonPlaylistSpielen" Grid.Column="1"
                                         Content="▶️"
                                         Width="32"
                                         Height="32"
@@ -159,7 +159,7 @@
                                         Cursor="Hand"/>
 
                                     
-                                    <Button Grid.Column="2"
+                                    <Button Name="ButtonPlaylistLöschen" Grid.Column="2"
                                         Content="🗑️"
                                         Width="32"
                                         Height="32"
@@ -202,7 +202,7 @@
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                <Button Content="▶" ToolTip="Abspielen" Width="40" Height="35" Margin="5,0,0,0" Background="#1A73E8" Foreground="White"/>
+                                                <Button Name="ButtonAbspielen" Content="▶" ToolTip="Abspielen" Width="40" Height="35" Margin="5,0,0,0" Background="#1A73E8" Foreground="White" Click="ButtonAbspielen_Click"/>
                                                 
                                                 <Grid Width="40" Height="35" Margin="5,0,0,0">
                                                     <Grid.RowDefinitions>
@@ -210,11 +210,11 @@
                                                         <RowDefinition Height="*"/>
                                                     </Grid.RowDefinitions>
 
-                                                    <Button Content="▲" Grid.Row="0" Height="16" VerticalAlignment="Top" Padding="0,-1,0,1" Background="#1A73E8" Foreground="White" BorderThickness="0" FontSize="12" ToolTip="Nach oben"/>
-                                                    <Button Content="▼" Grid.Row="1" Height="16" VerticalAlignment="Bottom" Padding="0,-1,0,1" Background="#1A73E8" Foreground="White" BorderThickness="0" FontSize="12" ToolTip="Nach unten"/>
+                                                    <Button Name="ButtonReihenfolgeHoch" Content="▲" Grid.Row="0" Height="16" VerticalAlignment="Top" Padding="0,-1,0,1" Background="#1A73E8" Foreground="White" BorderThickness="0" FontSize="12" ToolTip="Nach oben" Click="ButtonReihenfolgeHoch_Click"/>
+                                                    <Button Name="ButtonReihenfolgeRunter" Content="▼" Grid.Row="1" Height="16" VerticalAlignment="Bottom" Padding="0,-1,0,1" Background="#1A73E8" Foreground="White" BorderThickness="0" FontSize="12" ToolTip="Nach unten" Click="ButtonReihenfolgeRunter_Click"/>
                                                 </Grid>
                                                 
-                                                <Button Content="🗑️" ToolTip="Löschen" Width="40" Height="35" Margin="5,0,0,0" Background="#1A73E8" Foreground="White"/>
+                                                <Button Name="ButtonLöschen" Content="🗑️" ToolTip="Löschen" Width="40" Height="35" Margin="5,0,0,0" Background="#1A73E8" Foreground="White" Click="ButtonLöschen_Click"/>
                                             </StackPanel>
                                         </Grid>
                                     </Border>
