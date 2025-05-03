@@ -43,10 +43,47 @@ namespace MediaSphere
                 SQLiteConnection.CreateFile(databaseFile);
                 CreateTables();
             }
-            
+
+            //Kommandozeilenargumente holen (z. B. wenn über "Öffnen mit" gestartet)
+            string[] args = Environment.GetCommandLineArgs();
+            string dateipfad = null;
+
+            if (args.Length > 1 && File.Exists(args[1]))
+            {
+                dateipfad = args[1];
+            }
+
             if (!string.IsNullOrEmpty(Properties.Settings.Default.AngemeldeterBenutzername))
             {
-                MainWindow2 hauptfenster = new MainWindow2(Properties.Settings.Default.AngemeldeterBenutzername,false);
+                var hauptfenster = new MainWindow2(Properties.Settings.Default.AngemeldeterBenutzername, false);
+
+                if (dateipfad != null)
+                {
+                    var medium = new Medium
+                    {
+                        Pfad = dateipfad,
+                        Typ = System.IO.Path.GetExtension(dateipfad).ToLower() == ".mp4" ? "mp4" : "mp3",
+                        Titel = System.IO.Path.GetFileNameWithoutExtension(dateipfad)
+                    };
+
+                    hauptfenster.StarteMedium(medium);
+                }
+
+                hauptfenster.Show();
+                this.Close();
+            }
+            else if (dateipfad != null)
+            {
+                var hauptfenster = new MainWindow2("Gast", true);
+
+                var medium = new Medium
+                {
+                    Pfad = dateipfad,
+                    Typ = System.IO.Path.GetExtension(dateipfad).ToLower() == ".mp4" ? "mp4" : "mp3",
+                    Titel = System.IO.Path.GetFileNameWithoutExtension(dateipfad)
+                };
+
+                hauptfenster.StarteMedium(medium);
                 hauptfenster.Show();
                 this.Close();
             }
@@ -55,6 +92,8 @@ namespace MediaSphere
                 SwitchView(new Login(this));
             }
         }
+
+        
 
 
         public void SwitchView(object NeueSeite)

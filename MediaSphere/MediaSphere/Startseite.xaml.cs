@@ -38,9 +38,15 @@ namespace MediaSphere
             Properties.Settings.Default.AngemeldeterBenutzername = string.Empty;
             Properties.Settings.Default.Save();
 
-            MainWindow login = new MainWindow();
-            login.Show();
-            MainWindow2.Close();
+            var exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = exePath,
+                UseShellExecute = true
+            });
+
+            Application.Current.Shutdown();
         }
 
         private void ButtonMediathekErweitern_Click(object sender, RoutedEventArgs e)
