@@ -238,59 +238,8 @@ namespace MediaSphere
             if (medium == null || string.IsNullOrWhiteSpace(medium.Pfad))
                 return;
 
-            try
-            {
-                var mediaPlayer = MainWindow2.FindName("MediaPlayer") as MediaElement;
-                var titelTextBlockAudio = MainWindow2.FindName("TextBlockAktuellerTitelAudio") as TextBlock;
-                var titelTextBlockVideo = MainWindow2.FindName("TextBlockAktuellerTitelVideo") as TextBlock;
-                var dockPanel = MainWindow2.FindName("DockPlayer") as DockPanel;
-                var videoOverlay = MainWindow2.FindName("VideoOverlay") as Grid;
+            MainWindow2.StarteMedium(medium);
 
-                if (mediaPlayer != null)
-                {
-                    mediaPlayer.Stop();
-                    mediaPlayer.Source = new Uri(medium.Pfad, UriKind.Absolute);
-                    mediaPlayer.Play();
-                }
-
-
-
-                if (medium.Typ.ToLower() == "mp3")
-                {
-
-                    titelTextBlockAudio.Text = $"🎵 {medium.Titel}";
-
-                    if (dockPanel != null)
-                        dockPanel.Visibility = Visibility.Visible;
-
-                    if (videoOverlay != null)
-                        videoOverlay.Visibility = Visibility.Collapsed;
-                }
-                else if (medium.Typ.ToLower() == "mp4")
-                {
-
-                    titelTextBlockVideo.Text = $"🎬 {medium.Titel}";
-
-                    if (videoOverlay != null)
-                        videoOverlay.Visibility = Visibility.Visible;
-
-                    if (dockPanel != null)
-                        dockPanel.Visibility = Visibility.Collapsed;
-                }
-            }
-            catch (Exception ex)
-            {
-                var dialog = new CustomDialog("Fehler beim Abspielen: " + ex.Message, false);
-                dialog.Owner = Window.GetWindow(this);
-                dialog.ShowDialog();
-            }
-
-            var ButtonPlayPauseAudio = MainWindow2.FindName("ButtonPlayPauseAudio") as Button;
-            var ButtonPlayPauseVideo = MainWindow2.FindName("ButtonPlayPauseVideo") as Button;
-
-            ButtonPlayPauseAudio.Content = "⏸";
-            ButtonPlayPauseVideo.Content = "⏸";
-            MainWindow2.InitMediaTimer();
         }
 
 
@@ -305,29 +254,14 @@ namespace MediaSphere
             if (medium == null || ausgewaehltePlaylist == null)
                 return;
 
-            
-
+           
             using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
 
-                
-                int aktuelleReihenfolge = 0;
-                string getReihenfolgeQuery = @"
-                    SELECT Reihenfolge 
-                    FROM PlaylistMedien 
-                    WHERE PlaylistID = @PlaylistID AND MedienID = @MedienID";
 
-                using (var cmd = new SQLiteCommand(getReihenfolgeQuery, connection))
-                {
-                    cmd.Parameters.AddWithValue("@PlaylistID", ausgewaehltePlaylist.PlaylistID);
-                    cmd.Parameters.AddWithValue("@MedienID", medium.MedienID);
-                    var resultValue = cmd.ExecuteScalar();
-                    if (resultValue != null)
-                        aktuelleReihenfolge = Convert.ToInt32(resultValue);
-                }
+                int aktuelleReihenfolge = GetReihenfolge(ausgewaehltePlaylist.PlaylistID, medium.MedienID);
 
-               
                 string deleteQuery = @"
                     DELETE FROM PlaylistMedien 
                     WHERE PlaylistID = @PlaylistID AND MedienID = @MedienID";
@@ -488,5 +422,59 @@ namespace MediaSphere
             }
         }
 
+        private void ButtonPlaylistSpielen_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var playlist = button?.DataContext as Playlist;
+            if (playlist == null)
+                return;
+
+            var medienListe = LadeMedienDerPlaylist(playlist.PlaylistID);
+            if (medienListe.Count == 0)
+            {
+                var dialog = new CustomDialog("Diese Playlist enthält keine Medien.", false);
+                dialog.Owner = Window.GetWindow(this);
+                dialog.ShowDialog();
+                return;
+            }
+
+            MainWindow2.PlayPlaylist(medienListe); // Wiedergabe über MainWindow2
+        }
+
+        private void ButtonPlaylistLöschen_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var playlist = button?.DataContext as Playlist;
+
+            if (playlist == null)
+                return;
+
+            
+            try
+            {
+                using (var connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string deletePlaylist = "DELETE FROM Playlist WHERE PlaylistID = @PlaylistID";
+                    using (var cmd = new SQLiteCommand(deletePlaylist, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@PlaylistID", playlist.PlaylistID);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                LadePlaylists();
+                ListViewPlaylistMedien.ItemsSource = null;
+                ListViewPlaylistMedien.Visibility = Visibility.Collapsed;
+                TextBlockPlaylistTitel.Text = "";
+            }
+            catch (Exception ex)
+            {
+                var dialog = new CustomDialog("Fehler beim Löschen der Playlist: " + ex.Message, false);
+                dialog.Owner = Window.GetWindow(this);
+                dialog.ShowDialog();
+            }
+        }
     }
 }

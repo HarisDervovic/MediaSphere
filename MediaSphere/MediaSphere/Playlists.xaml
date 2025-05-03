@@ -156,7 +156,7 @@
                                         Background="#1A73E8"
                                         Foreground="White"
                                         BorderThickness="0"
-                                        Cursor="Hand"/>
+                                        Cursor="Hand" Click="ButtonPlaylistSpielen_Click"/>
 
                                     
                                     <Button Name="ButtonPlaylistLöschen" Grid.Column="2"
@@ -169,7 +169,7 @@
                                         Background="#1A73E8"
                                         Foreground="White"
                                         BorderThickness="0"
-                                        Cursor="Hand"/>
+                                        Cursor="Hand" Click="ButtonPlaylistLöschen_Click"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

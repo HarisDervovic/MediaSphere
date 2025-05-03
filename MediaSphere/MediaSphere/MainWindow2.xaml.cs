@@ -149,22 +149,28 @@ namespace MediaSphere
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
-            if (loopState == 2) // Single Track Loop
+            if (loopState == 2 || (loopState == 1 && aktuellePlaylist == null)) // Single Track
             {
                 MediaPlayer.Position = TimeSpan.Zero;
                 MediaPlayer.Play();
+                return;
             }
-            else if (loopState == 1) // Playlist Loop
+
+            if (aktuellePlaylist != null && aktuellerIndex < aktuellePlaylist.Count - 1)
             {
-                // Später Playlistlogik implementieren
-                MediaPlayer.Position = TimeSpan.Zero;
-                MediaPlayer.Play();
+                aktuellerIndex++;
+                StarteMedium(aktuellePlaylist[aktuellerIndex]);
+            }
+            else if (loopState == 1 && aktuellePlaylist != null)
+            {
+                aktuellerIndex = 0;
+                StarteMedium(aktuellePlaylist[aktuellerIndex]);
             }
             else
             {
-                // Kein Loop
-                ButtonPlayPauseVideo.Content = "▶";
                 ButtonPlayPauseAudio.Content = "▶";
+                ButtonPlayPauseVideo.Content = "▶";
+                aktuellePlaylist = null;
             }
         }
 
@@ -189,6 +195,78 @@ namespace MediaSphere
                 }
             }
         }
+
+
+        private List<Medium> aktuellePlaylist;
+        private int aktuellerIndex = 0;
+
+        public void PlayPlaylist(List<Medium> medien)
+        {
+            if (medien == null || medien.Count == 0)
+                return;
+
+            aktuellePlaylist = medien;
+            aktuellerIndex = 0;
+            StarteMedium(aktuellePlaylist[aktuellerIndex]);
+        }
+
+
+        public void StarteMedium(Medium medium)
+        {
+            if (medium == null || string.IsNullOrWhiteSpace(medium.Pfad))
+                return;
+
+            MediaPlayer.Stop();
+            MediaPlayer.Source = new Uri(medium.Pfad);
+            MediaPlayer.Play();
+
+            if (medium.Typ.ToLower() == "mp3")
+            {
+                DockPlayer.Visibility = Visibility.Visible;
+                VideoOverlay.Visibility = Visibility.Collapsed;
+                TextBlockAktuellerTitelAudio.Text = $"🎵 {medium.Titel}";
+            }
+            else if (medium.Typ.ToLower() == "mp4")
+            {
+                DockPlayer.Visibility = Visibility.Collapsed;
+                VideoOverlay.Visibility = Visibility.Visible;
+                TextBlockAktuellerTitelVideo.Text = $"🎬 {medium.Titel}";
+            }
+
+            ButtonPlayPauseAudio.Content = "⏸";
+            ButtonPlayPauseVideo.Content = "⏸";
+            InitMediaTimer();
+        }
+
+
+
+        private void ButtonVorspringen_Click(object sender, RoutedEventArgs e)
+        {
+            if (aktuellePlaylist != null && aktuellerIndex < aktuellePlaylist.Count - 1)
+            {
+                aktuellerIndex++;
+                StarteMedium(aktuellePlaylist[aktuellerIndex]);
+            }
+        }
+
+
+        private void ButtonZurückspringen_Click(object sender, RoutedEventArgs e)
+        {
+            if (MediaPlayer.Position.TotalSeconds > 3)
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+            }
+            else if (aktuellePlaylist != null && aktuellerIndex > 0)
+            {
+                aktuellerIndex--;
+                StarteMedium(aktuellePlaylist[aktuellerIndex]);
+            }
+            else if (aktuellePlaylist != null && aktuellerIndex == 0)
+            {
+                StarteMedium(aktuellePlaylist[0]);
+            }
+        }
+
 
     }
 }

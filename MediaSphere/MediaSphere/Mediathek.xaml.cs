@@ -136,60 +136,8 @@ namespace MediaSphere
 
             if (medium == null || string.IsNullOrWhiteSpace(medium.Pfad))
                 return;
-
-            try
-            {
-                var mediaPlayer = MainWindow2.FindName("MediaPlayer") as MediaElement;
-                var titelTextBlockAudio = MainWindow2.FindName("TextBlockAktuellerTitelAudio") as TextBlock;
-                var titelTextBlockVideo = MainWindow2.FindName("TextBlockAktuellerTitelVideo") as TextBlock;
-                var dockPanel = MainWindow2.FindName("DockPlayer") as DockPanel;
-                var videoOverlay = MainWindow2.FindName("VideoOverlay") as Grid;
-
-                if (mediaPlayer != null)
-                {
-                    mediaPlayer.Stop();
-                    mediaPlayer.Source = new Uri(medium.Pfad, UriKind.Absolute);
-                    mediaPlayer.Play();
-                }
-
-                
-
-                if (medium.Typ.ToLower() == "mp3")
-                {
-
-                    titelTextBlockAudio.Text = $"🎵 {medium.Titel}";
-
-                    if (dockPanel != null)
-                        dockPanel.Visibility = Visibility.Visible;
-
-                    if (videoOverlay != null)
-                        videoOverlay.Visibility = Visibility.Collapsed;
-                }
-                else if (medium.Typ.ToLower() == "mp4")
-                {
-
-                    titelTextBlockVideo.Text = $"🎬 {medium.Titel}";
-
-                    if (videoOverlay != null)
-                        videoOverlay.Visibility = Visibility.Visible;
-
-                    if (dockPanel != null)
-                        dockPanel.Visibility = Visibility.Collapsed;
-                }
-            }
-            catch (Exception ex)
-            {
-                var dialog = new CustomDialog("Fehler beim Abspielen: " + ex.Message, false);
-                dialog.Owner = Window.GetWindow(this);
-                dialog.ShowDialog();
-            }
-
-            var ButtonPlayPauseAudio = MainWindow2.FindName("ButtonPlayPauseAudio") as Button;
-            var ButtonPlayPauseVideo = MainWindow2.FindName("ButtonPlayPauseVideo") as Button;
-
-            ButtonPlayPauseAudio.Content = "⏸";
-            ButtonPlayPauseVideo.Content = "⏸";
-            MainWindow2.InitMediaTimer();
+            
+            MainWindow2.StarteMedium(medium);
         }
 
         private void ButtonLoeschen_Click(object sender, RoutedEventArgs e)

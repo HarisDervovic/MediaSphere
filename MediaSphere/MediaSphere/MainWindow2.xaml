@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaSphere"
         mc:Ignorable="d"
-        Title="MainWindow2" Height="850" Width="1400" WindowStartupLocation="CenterScreen">
+        Title="MediaSphere" Height="850" Width="1400" WindowStartupLocation="CenterScreen">
 
     <Grid>
 
@@ -79,9 +79,9 @@
                                        ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Margin="0,0,40,0">
-                                <Button Content="⏮" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                                <Button Name="ButtonZurückspringenAudio" Content="⏮" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8" Click="ButtonZurückspringen_Click"/>
                                 <Button Name="ButtonPlayPauseAudio" Content="⏸" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8" Click="ButtonPlayPause_Click"/>
-                                <Button Content="⏭" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8"/>
+                                <Button Name="ButtonVorspringenAudio" Content="⏭" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8" Click="ButtonVorspringen_Click"/>
                                 <Button Name="ButtonLoopAudio" Content="🔁" FontSize="24" Width="50" Height="50" Padding="0" Background="Transparent" BorderThickness="0" Foreground="#1A73E8" Click="ButtonLoop_Click"/>
                             </StackPanel>
 
@@ -183,10 +183,10 @@
                                    TextWrapping="NoWrap"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="330,0,0,0" Grid.Column="1">
-                            <Button Content="⏮" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,40,0" Grid.Column="1">
+                            <Button Name="ButtonZurückspringenVideo" Content="⏮" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0" Click="ButtonZurückspringen_Click"/>
                             <Button x:Name="ButtonPlayPauseVideo" Content="⏸" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0" Click="ButtonPlayPause_Click"/>
-                            <Button Content="⏭" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0"/>
+                            <Button Name="ButtonVorspringenVideo" Content="⏭" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0" Click="ButtonVorspringen_Click"/>
                             <Button Name="ButtonLoopVideo" Content="🔁" Width="50" Height="50" Background="Transparent" Foreground="White" FontSize="24" BorderThickness="0" Click="ButtonLoop_Click"/>
                         </StackPanel>
 
