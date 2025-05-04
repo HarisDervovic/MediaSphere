@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MediaSphere"
         mc:Ignorable="d"
         Title="MediaSphere" Height="700" Width="900"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Icon="/MediaSphereIcon.ico">
 
     <Grid>
         

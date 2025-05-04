@@ -6,12 +6,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>MediaSphereIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="BlueSuccess.png" />
     <None Remove="ffmpeg.exe" />
     <None Remove="loading.gif" />
+    <None Remove="MediaSphereIcon.ico" />
     <None Remove="MediaSphereLogo.png" />
     <None Remove="warning-xxl.png" />
     <None Remove="yt-dlp.exe" />
@@ -20,6 +22,9 @@
   <ItemGroup>
     <Content Include="ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MediaSphereIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -54,6 +59,7 @@
 
   <ItemGroup>
     <Resource Include="loading.gif" />
+    <Resource Include="MediaSphereIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
