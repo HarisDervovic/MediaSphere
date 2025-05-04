@@ -244,6 +244,7 @@ namespace MediaSphere
             if (medium == null || string.IsNullOrWhiteSpace(medium.Pfad))
                 return;
 
+            MainWindow2.aktuellePlaylist = null;
             MainWindow2.StarteMedium(medium);
 
         }

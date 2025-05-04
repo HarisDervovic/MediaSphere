@@ -197,7 +197,7 @@ namespace MediaSphere
         }
 
 
-        private List<Medium> aktuellePlaylist;
+        public List<Medium> aktuellePlaylist;
         private int aktuellerIndex = 0;
 
         public void PlayPlaylist(List<Medium> medien)
