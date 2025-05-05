@@ -198,7 +198,7 @@ namespace MediaSphere
 
             if (medium == null) return;
 
-            var fenster = new MediumPlaylistHinzufügen(medium, MainWindow2.Benutzer);
+            var fenster = new MediumPlaylistHinzufügen(MainWindow2, medium);
             fenster.Owner = Window.GetWindow(this);
             fenster.ShowDialog();
         }

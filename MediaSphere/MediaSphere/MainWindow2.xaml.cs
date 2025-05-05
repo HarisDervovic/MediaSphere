@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,11 @@ namespace MediaSphere
         public DispatcherTimer Timer;
 
         public string Benutzer;
+        public int BenutzerID;
+
+        private static readonly string appFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MediaSphere");
+        private static readonly string databaseFile = System.IO.Path.Combine(appFolder, "MediaSphere.db");
+        private static readonly string connectionString = $"Data Source={databaseFile};Version=3;";
 
         public void InitMediaTimer()
         {
@@ -70,6 +76,20 @@ namespace MediaSphere
         {
             InitializeComponent();
             Benutzer = Benutzername;
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT BenutzerID FROM Benutzer WHERE Benutzername = @Benutzername";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Benutzername", Benutzer);
+                    var result = command.ExecuteScalar();
+
+                    BenutzerID = Convert.ToInt32(result);
+
+
+                }
+            }
             SwitchView(new Startseite(this,Gast));
         }
 

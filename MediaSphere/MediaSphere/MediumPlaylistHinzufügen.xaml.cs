@@ -26,11 +26,11 @@ namespace MediaSphere
         private static string databaseFile = System.IO.Path.Combine(appFolder, "MediaSphere.db");
         private static string connectionString = $"Data Source={databaseFile};Version=3;";
         Medium medium;
-        public MediumPlaylistHinzufügen(Medium _medium, string Benutzer)
+        public MediumPlaylistHinzufügen(MainWindow2 mainwindow2,Medium _medium)
         {
             InitializeComponent();
             medium = _medium;
-            ComboBoxPlaylists.ItemsSource = LadePlaylistsFürBenutzer(Benutzer);
+            ComboBoxPlaylists.ItemsSource = LadePlaylistsFürBenutzer(mainwindow2.BenutzerID);
             ComboBoxPlaylists.DisplayMemberPath = "Name";
         }
 
@@ -110,7 +110,7 @@ namespace MediaSphere
             this.Close();
         }
 
-        private List<Playlist> LadePlaylistsFürBenutzer(string benutzername)
+        private List<Playlist> LadePlaylistsFürBenutzer(int benutzerID)
         {
             var playlists = new List<Playlist>();
 
@@ -119,14 +119,13 @@ namespace MediaSphere
                 connection.Open();
 
                 string query = @"
-                    SELECT p.PlaylistID, p.BenutzerID, p.Name, p.Erstellungsdatum
-                    FROM Playlist p
-                    INNER JOIN Benutzer b ON p.BenutzerID = b.BenutzerID
-                    WHERE b.Benutzername = @Benutzername";
+            SELECT PlaylistID, BenutzerID, Name, Erstellungsdatum
+            FROM Playlist
+            WHERE BenutzerID = @BenutzerID";
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Benutzername", benutzername);
+                    command.Parameters.AddWithValue("@BenutzerID", benutzerID);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -146,6 +145,7 @@ namespace MediaSphere
 
             return playlists;
         }
+
 
     }
 }
