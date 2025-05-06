@@ -124,7 +124,24 @@ namespace MediaSphere
 
         private void SliderProgress_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            isDraggingSlider = true;
+            if (sender is Slider slider)
+            {
+                isDraggingSlider = true;
+
+                // Position berechnen, wo geklickt wurde
+                Point pos = e.GetPosition(slider);
+                double percent = pos.X / slider.ActualWidth;
+                double newValue = percent * slider.Maximum;
+                slider.Value = newValue;
+
+                // MediaPlayer-Position sofort setzen
+                if (MediaPlayer.NaturalDuration.HasTimeSpan)
+                {
+                    MediaPlayer.Position = TimeSpan.FromSeconds(newValue);
+                }
+
+                e.Handled = true;
+            }
         }
 
         private void SliderProgress_PreviewMouseUp(object sender, MouseButtonEventArgs e)
