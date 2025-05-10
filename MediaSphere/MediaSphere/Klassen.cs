@@ -35,7 +35,5 @@ namespace MediaSphere
         public int MedienID { get; set; }
         public int Reihenfolge { get; set; }
 
-        // Optionale Navigationseigenschaft, wenn du Medien direkt abrufst
-        //public Medium Medium { get; set; }
     }
 }
