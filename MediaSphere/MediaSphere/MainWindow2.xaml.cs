@@ -101,9 +101,7 @@ namespace MediaSphere
         private void CloseVideo_Click(object sender, RoutedEventArgs e)
         {
             VideoOverlay.Visibility = Visibility.Collapsed;
-            MediaPlayer.Stop();
-
-            
+            MediaPlayer.Stop();           
         }
 
         private void SliderMusikLautstärke_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

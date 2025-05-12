@@ -78,7 +78,8 @@ namespace MediaSphere
 
         private void ButtonEnabledStateChange(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(TextBoxDateipfad.Text) && !string.IsNullOrWhiteSpace(TextBoxTitel.Text) && !string.IsNullOrWhiteSpace(TextBoxDateityp.Text) && ComboBoxKategorie.SelectedItem != null)
+            if (!string.IsNullOrWhiteSpace(TextBoxDateipfad.Text) && !string.IsNullOrWhiteSpace(TextBoxTitel.Text) 
+                && !string.IsNullOrWhiteSpace(TextBoxDateityp.Text) && ComboBoxKategorie.SelectedItem != null)
             {
                 ButtonMediathekErweitern.IsEnabled = true;
             }
