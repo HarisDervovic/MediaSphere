@@ -193,6 +193,10 @@ namespace MediaSphere
             ButtonAnalyse.IsEnabled = false;
             ButtonAudio.IsEnabled = false;
             ButtonVideo.IsEnabled = false;
+            ButtonStartseite.IsEnabled = false;
+            ButtonMediathekErweitern.IsEnabled = false;
+            ButtonMediathek.IsEnabled = false;
+            ButtonPlaylist.IsEnabled = false;
             var image = new BitmapImage();
             image.BeginInit();
             image.UriSource = new Uri("pack://application:,,,/loading.gif");  //Damit das Gif auch wirklich läuft
@@ -298,6 +302,10 @@ namespace MediaSphere
                     ButtonAnalyse.IsEnabled = true;
                     ButtonAudio.IsEnabled = true;
                     ButtonVideo.IsEnabled = true;
+                    ButtonStartseite.IsEnabled = true;
+                    ButtonMediathekErweitern.IsEnabled = true;
+                    ButtonMediathek.IsEnabled = true;
+                    ButtonPlaylist.IsEnabled = true;
                 }
                 else
                 {
@@ -314,6 +322,10 @@ namespace MediaSphere
                     ButtonAnalyse.IsEnabled = true;
                     ButtonAudio.IsEnabled = true;
                     ButtonVideo.IsEnabled = true;
+                    ButtonStartseite.IsEnabled = true;
+                    ButtonMediathekErweitern.IsEnabled = true;
+                    ButtonMediathek.IsEnabled = true;
+                    ButtonPlaylist.IsEnabled = true;
                 }
             }
             catch (Exception ex)
@@ -336,6 +348,10 @@ namespace MediaSphere
                 ButtonAnalyse.IsEnabled = true;
                 ButtonAudio.IsEnabled = true;
                 ButtonVideo.IsEnabled = true;
+                ButtonStartseite.IsEnabled = true;
+                ButtonMediathekErweitern.IsEnabled = true;
+                ButtonMediathek.IsEnabled = true;
+                ButtonPlaylist.IsEnabled = true;
             }
         }
 
@@ -366,7 +382,10 @@ namespace MediaSphere
                 ButtonAnalyse.IsEnabled = true;
                 ButtonAudio.IsEnabled = true;
                 ButtonVideo.IsEnabled = true;
-                
+                ButtonStartseite.IsEnabled = true;
+                ButtonMediathekErweitern.IsEnabled = true;
+                ButtonMediathek.IsEnabled = true;
+                ButtonPlaylist.IsEnabled = true;
             }
         }
 
