@@ -119,6 +119,7 @@ namespace MediaSphere
             if (string.IsNullOrWhiteSpace(YouTubeUrl) || YouTubeUrl == "YouTube-Link hier einfügen...")
             {
                 LoadingImage.Visibility = Visibility.Collapsed;
+                ButtonAnalyse.IsEnabled = true;
                 var dialog = new CustomDialog("Bitte einen gültigen YouTube-Link eingeben!", false);
                 dialog.Owner = Window.GetWindow(this);
                 dialog.ShowDialog();
@@ -306,6 +307,10 @@ namespace MediaSphere
                     ButtonMediathekErweitern.IsEnabled = true;
                     ButtonMediathek.IsEnabled = true;
                     ButtonPlaylist.IsEnabled = true;
+                    if (_Gast)
+                    {
+                        ButtonPlaylist.IsEnabled = false;
+                    }
                 }
                 else
                 {
@@ -326,6 +331,10 @@ namespace MediaSphere
                     ButtonMediathekErweitern.IsEnabled = true;
                     ButtonMediathek.IsEnabled = true;
                     ButtonPlaylist.IsEnabled = true;
+                    if (_Gast)
+                    {
+                        ButtonPlaylist.IsEnabled = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -352,6 +361,10 @@ namespace MediaSphere
                 ButtonMediathekErweitern.IsEnabled = true;
                 ButtonMediathek.IsEnabled = true;
                 ButtonPlaylist.IsEnabled = true;
+                if (_Gast)
+                {
+                    ButtonPlaylist.IsEnabled = false;
+                }
             }
         }
 
